@@ -83,6 +83,7 @@ typedef struct s_player
 	int	dir;
 	int	x;
 	int	y;
+	float angle; // pour angle de vue selon la boussole 
 }			t_player;
 
 typedef struct s_img
@@ -154,5 +155,6 @@ int		init_map(t_game *game, int y);
 int		final_check(t_game *game);
 int     set_text(t_game *game);
 int     init_window(t_game *game);
+void 	angles_de_ses_morts(t_game *game);
 
 #endif

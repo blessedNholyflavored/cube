@@ -37,7 +37,6 @@ int ft_keys(t_game *game)
 	// 	mlx_destroy_window(game->window.mlx, game->window.mlx);
 	// if (game->window.mlx)
 	// 	mlx_destroy_display(game->window.mlx);
-	//mlx_hook(game->window.mlx, 2, 1L<<2, key_codes, game);
 	return (0);
 }
 
@@ -48,16 +47,17 @@ int     init_window(t_game *game)
                 return (1);
         game->window.mlx_win = mlx_new_window(game->window.mlx, 1920, 1080, "Cub3D");
         if (!game->window.mlx_win)
-                return(2);
-        if (set_text(game))
+                return(1);
+        if (set_text(game	))
         {
                 printf("error\nTexture didn't load\n");
                 return (1);
         }
 		// angles, exec et texture
-		mlx_hook(game->window.mlx, 2, 1L<<0, key_codes, game);
-		mlx_hook(game->window.mlx, 17, 1L<<17, ft_keys,game);
-        mlx_loop(game->window.mlx);
+		angles_de_ses_morts(game);
+		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
+		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
+		mlx_loop(game->window.mlx);
         return (0);
 }
 
