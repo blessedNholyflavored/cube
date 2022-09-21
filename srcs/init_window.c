@@ -45,7 +45,7 @@ int     init_window(t_game *game)
         game->window.mlx = mlx_init();
         if (game->window.mlx == NULL)
                 return (1);
-        game->window.mlx_win = mlx_new_window(game->window.mlx, 1920, 1080, "Cub3D");
+        game->window.mlx_win = mlx_new_window(game->window.mlx, WIDTH, HEIGHT, "Cub3D");
         if (!game->window.mlx_win)
                 return(1);
         if (set_text(game	))

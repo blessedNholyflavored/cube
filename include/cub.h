@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <math.h>
 
-#define WIDTH 1280
+#define WIDTH 1280 // pas trop grand pck faut pas deconner
 #define HEIGHT 720
 
 typedef enum e_last
