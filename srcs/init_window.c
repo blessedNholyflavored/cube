@@ -55,6 +55,7 @@ int     init_window(t_game *game)
         }
 		// angles, exec et texture
 		angles_de_ses_morts(game);
+		exec(game);
 		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
 		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
 		mlx_loop(game->window.mlx);

@@ -22,6 +22,9 @@
 #include <unistd.h>
 #include <math.h>
 
+#define WIDTH 1280
+#define HEIGHT 720
+
 typedef enum e_last
 {
 	HAUT,
@@ -47,6 +50,7 @@ typedef struct s_map
 	int		max_y;
 	char	**file;
 	char	**map;
+	int		nb_lignes; //nb de ligne ds la map
 }			t_map;
 
 typedef struct s_check
@@ -108,6 +112,17 @@ typedef struct s_window
 	void	*mlx;
 }			t_window;
 
+typedef struct t_ray
+{
+	int mapx;
+	int mapy;
+	double camerax;
+	double dirx;
+	double diry;
+	double deltax;
+	double deltay;
+}
+
 typedef struct s_game
 {
 	t_player	player;
@@ -116,6 +131,7 @@ typedef struct s_game
 	t_map		map;
 	t_assets	assets;
 	t_window	window;
+	t_ray		ray;
 }			t_game;
 
 int		check_map(t_game *game);
@@ -156,6 +172,8 @@ int		init_map(t_game *game, int y);
 int		final_check(t_game *game);
 int     set_text(t_game *game);
 int     init_window(t_game *game);
+///
 void 	angles_de_ses_morts(t_game *game);
+void exec(t_game *game);
 
 #endif
