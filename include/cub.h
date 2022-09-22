@@ -86,14 +86,22 @@ typedef struct s_setup
 typedef struct s_player
 {
 	int	dir;
-	int	x;
-	int	y;
-	float angle; // pour angle de vue selon la boussole 
+	double	posx;
+	double	posy;
+	double	planex;
+	double	planey;
+	double	dirx;
+	double	diry;
+	
 }			t_player;
 
 typedef struct s_img
 {
 	void	*img;
+	char	*addr;
+	int		bpp;
+	int		line_length;
+	int		endian;
 	int		width;
 	int		height;
 }			t_img;
@@ -112,16 +120,26 @@ typedef struct s_window
 	void	*mlx;
 }			t_window;
 
-typedef struct t_ray
+typedef struct s_ray
 {
 	int mapx;
 	int mapy;
+	int stepx;
+	int line_height;
+	int	side;
+	int stepy;
+	int		FirstPixel;
+	int		PixelLast;
+	double dist;
+	double wallx;
 	double camerax;
 	double dirx;
 	double diry;
+	double sidex;
+	double sidey;
 	double deltax;
 	double deltay;
-}
+} t_ray;
 
 typedef struct s_game
 {
@@ -129,14 +147,18 @@ typedef struct s_game
 	t_setup		setup;
 	t_check		check;
 	t_map		map;
+	t_img			*img;
 	t_assets	assets;
+	t_img		texture[4]; // plus tard
 	t_window	window;
+	unsigned int	plafond;
+	unsigned int	sol;
 	t_ray		ray;
 }			t_game;
 
 int		check_map(t_game *game);
 int		check_char(t_game *game, char **map);
-int		check_dir(int x, int y, char c, t_game *game);
+int	check_dir(double x, double y, char c, t_game *game);
 char	**ft_get_file(int fd, int lvl);
 int		get_next_line(int fd, char **line);
 char	*ft_stock_line(char *str, char **line);
@@ -175,5 +197,8 @@ int     init_window(t_game *game);
 ///
 void 	angles_de_ses_morts(t_game *game);
 void exec(t_game *game);
+int raycasting(t_game *game);
+int loop(t_game *game);
+void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
 
 #endif

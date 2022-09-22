@@ -12,7 +12,7 @@
 
 #include "cub.h"
 
-int	check_dir(int x, int y, char c, t_game *game)
+int	check_dir(double x, double y, char c, t_game *game)
 {
 	if (game->player.dir != -17)
 	{
@@ -26,8 +26,8 @@ int	check_dir(int x, int y, char c, t_game *game)
 		game->player.dir = EAST;
 	else if (c == 'W')
 		game->player.dir = WEST;
-	game->player.x = x;
-	game->player.y = y;
+	game->player.posx = x;
+	game->player.posy = y;
 	return (0);
 }
 

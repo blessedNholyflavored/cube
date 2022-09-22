@@ -42,22 +42,30 @@ int ft_keys(t_game *game)
 
 int     init_window(t_game *game)
 {
+		game->texture[0].img = NULL;
+		game->texture[1].img = NULL;
+		game->texture[2].img = NULL;
+		game->texture[3].img = NULL;
         game->window.mlx = mlx_init();
         if (game->window.mlx == NULL)
-                return (1);
+			return (1);
         game->window.mlx_win = mlx_new_window(game->window.mlx, WIDTH, HEIGHT, "Cub3D");
         if (!game->window.mlx_win)
-                return(1);
-        if (set_text(game	))
+            return(1);
+		game->img = malloc(sizeof(t_img));
+		if (!game->img) // free game;
+			return (1);
+		if (set_text(game))
         {
-                printf("error\nTexture didn't load\n");
-                return (1);
+            	printf("error\nTexture didn't load\n");
+               	return (1);
         }
+
 		// angles, exec et texture
-		angles_de_ses_morts(game);
-		exec(game);
-		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
+ 		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
 		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
+		//mlx_loop(game->window.mlx);
+		mlx_loop_hook(game->window.mlx, loop, game);
 		mlx_loop(game->window.mlx);
         return (0);
 }
