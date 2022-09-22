@@ -55,15 +55,15 @@
 // }
 
 
-int	count_colonnes(t_game *game)
-{
-	int i;
+// int	count_colonnes(t_game *game)
+// {
+// 	int i;
 
-	i = 0;
-	while (game->map.map[i])
-		i++;
-	return (i);
-}
+// 	i = 0;
+// 	while (game->map.map[i])
+// 		i++;
+// 	return (i);
+// }
 
 /*
 Trouver le premier point d’intersection sur X (X1)
@@ -86,8 +86,6 @@ int go_chercher_la_distance_du_rayon_mec(t_ray *ray, t_player *player)
 		ray->dist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
 		ray->wallx = player->posy + ray->dist * ray->diry;
 	}
-	//ray->wallx -= floor(ray->wallx);
-
 	ray->line_height = (int)(HEIGHT / ray->dist); // on calcule la taille de la ligne quon  doit dessiner sur lecran
 	ray->FirstPixel = -ray->line_height / 2 + HEIGHT / 2; // on calcule la pixel la plus basse et plus haute ds la bande
 	if (ray->FirstPixel < 0)
@@ -186,22 +184,15 @@ int raycasting(t_game *game)
 	go_chercher_la_distance_du_rayon_mec(&game->ray, &game->player);
 	// its about to go down
 
-	if (game->ray.side == 0 && game->ray.dirx > 0)
-		texture_colonne(game, &game->ray, col, 'E');
-	else if (game->ray.side == 0 && game->ray.dirx <= 0)
-		texture_colonne(game, &game->ray, col, 'W');
-	else if (game->ray.side == 1 && game->ray.dirx > 0)
-		texture_colonne(game, &game->ray, col, 'S');
-	else if (game->ray.side == 1 && game->ray.dirx <= 0)
-		texture_colonne(game, &game->ray, col, 'N');
-	// if(game->map.map[i][j] == 'N')
-// 				set_angle(game, j, i, 'N');
-// 			else if (game->map.map[i][j] == 'S')
-// 				set_angle(game, j, i, 'S');
-// 			else if (game->map.map[i][j] == 'E')
-// 				set_angle(game, j, i, 'E');
-// 			else if (game->map.map[i][j] == 'W')
-// 				set_angle(game, j, i, 'W');
+// 	if (game->ray.side == 0 && game->ray.dirx > 0)
+// 		texture_colonne(game, &game->ray, col, 'E');
+// 	else if (game->ray.side == 0 && game->ray.dirx <= 0)
+// 		texture_colonne(game, &game->ray, col, 'W');
+// 	else if (game->ray.side == 1 && game->ray.dirx > 0)
+// 		texture_colonne(game, &game->ray, col, 'S');
+// 	else if (game->ray.side == 1 && game->ray.dirx <= 0)
+// 		texture_colonne(game, &game->ray, col, 'N');
+
 	}
 	return(0);
 }

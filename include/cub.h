@@ -199,6 +199,6 @@ void 	angles_de_ses_morts(t_game *game);
 void exec(t_game *game);
 int raycasting(t_game *game);
 int loop(t_game *game);
-void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
+void texture_colonne(t_game *game, t_ray *ray);
 
 #endif
