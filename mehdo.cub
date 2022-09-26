@@ -1,0 +1,41 @@
+WE ./assets/wall.xpm
+SO ./assets/wall.xpm
+NO ./assets/wall.xpm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+EA ./assets/wall.xpm
+F 250,142,0
+C 118,124,255
+
+
+111111
+10011011
+1011 101
+111W1011
+1111111

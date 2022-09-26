@@ -21,14 +21,21 @@ void	init_struct(t_game *game)
 	game->check.e = 0;
 	game->check.f = 0;
 	game->check.c = 0;
-	game->assets.ea.img = NULL;
-	game->assets.no.img = NULL;
-	game->assets.so.img = NULL;
-	game->assets.we.img = NULL;
+	// game->assets.ea.img = NULL;
+	// game->assets.no.img = NULL;
+	// game->assets.so.img = NULL;
+	// game->assets.we.img = NULL;
+	// game->assets.sp.img = NULL;
+
 	game->setup.path_so = NULL;
 	game->setup.path_no = NULL;
 	game->setup.path_we = NULL;
 	game->setup.path_ea = NULL;
+
+	game->texture[0].img = NULL;
+	game->texture[1].img = NULL;
+	game->texture[2].img = NULL;
+	game->texture[3].img = NULL;
 	game->map.x = 0;
 	game->map.y = 0;
 	game->map.fd = 0;

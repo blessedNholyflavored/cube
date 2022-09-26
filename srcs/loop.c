@@ -64,7 +64,7 @@ void draw_shit(t_game *game, int x, int y)
 {
 	y = game->ray.FirstPixel - 1;
 	init_texture(game);
-	game->text.step = 1.0 * game->texture[game->text.texdir].height /*texture[0].height*/ / game->ray.line_height;
+	game->text.step = 1.0 * game->texture[game->text.texdir].height  / game->ray.line_height;
 	game->text.texx = (int)(game->text.wallx * (double)game->texture[game->text.texdir].width);
 	if (game->ray.side == 0 && game->ray.dirx > 0)
 		game->text.texx = game->texture[game->text.texdir].width - game->text.texx - 1;
@@ -110,9 +110,12 @@ int texture_colonne(t_game *game, int col)
 	 return (0);
 }
 
+
+
+
 int loop(t_game *game)
 {
-	//get_texture();
+	set_text(game);
 	init_struct_ray(game);
 	game->img->img = mlx_new_image(game->window.mlx, WIDTH, HEIGHT);
 	game->img->addr = mlx_get_data_addr(game->img->img, &game->img->bpp,

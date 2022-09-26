@@ -79,6 +79,9 @@ void init_struct_ray(t_game *game)
 	game->ray.diry = 0;
 	game->ray.deltax = 0;
 	game->ray.deltay = 0;
+	game->ray.side = 0;
+	game->ray.PixelLast = 0;
+	game->ray.FirstPixel = 0;
 }
 
 

@@ -98,21 +98,22 @@ typedef struct s_player
 typedef struct s_img
 {
 	void	*img;
-	char	*addr;
+	int		*addr;
 	int		bpp;
 	int		line_length;
 	int		endian;
 	int		width;
 	int		height;
+	int		bits_per_pixel;
 }			t_img;
 
-typedef struct s_assets
-{
-	t_img	we;
-	t_img	so;
-	t_img	no;
-	t_img	ea;
-}			t_assets;
+// typedef struct s_assets
+// {
+// 	t_img	we;
+// 	t_img	so;
+// 	t_img	no;
+// 	t_img	ea;
+// }			t_assets;
 
 typedef struct s_window
 {
@@ -154,14 +155,19 @@ typedef struct s_texture
 
 typedef struct s_game
 {
+	char *	we;
+	char *	so;
+	char *	no;
+	char *	ea;
+	char *sp;
 	t_player	player;
 	t_setup		setup;
 	t_check		check;
 	t_map		map;
 	t_img			*img;
-	t_assets	assets;
+	//t_assets	assets;
 	t_texture	text;
-	t_img		texture[4]; // plus tard
+	t_img		texture[5]; // plus tard
 	t_window	window;
 	unsigned int	plafond;
 	unsigned int	sol;
@@ -204,7 +210,7 @@ void	copy_map(t_game *game, char **file, int i, int x);
 int		set_map(t_game *game, char **file, int y);
 int		init_map(t_game *game, int y);
 int		final_check(t_game *game);
-int     set_text(t_game *game);
+void     set_text(t_game *game);
 int     init_window(t_game *game);
 ///
 void 	angles_de_ses_morts(t_game *game);
@@ -214,5 +220,6 @@ int loop(t_game *game);
 int texture_colonne(t_game *game, int col);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
 void init_struct_ray(t_game *game);
+void	get_texture(t_game *game);
 
 #endif
