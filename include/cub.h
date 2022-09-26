@@ -146,6 +146,10 @@ typedef struct s_texture
 {
 	int texdir;
 	double wallx;
+	int				texx;
+	int				texy;
+	double			step;
+	double			texpos;
 } t_texture;
 
 typedef struct s_game
@@ -156,8 +160,8 @@ typedef struct s_game
 	t_map		map;
 	t_img			*img;
 	t_assets	assets;
-	t_texture	texture;
-	//t_img		texture[4]; // plus tard
+	t_texture	text;
+	t_img		texture[4]; // plus tard
 	t_window	window;
 	unsigned int	plafond;
 	unsigned int	sol;
@@ -209,5 +213,6 @@ int raycasting(t_game *game);
 int loop(t_game *game);
 int texture_colonne(t_game *game, int col);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
+void init_struct_ray(t_game *game);
 
 #endif

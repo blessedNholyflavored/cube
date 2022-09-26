@@ -73,32 +73,41 @@ Tant que le prochain point d’intersection n’est pas un mur (pas une case rem
 si c’est le cas on arrête la vérification et on calcule la distance parcourue par le rayon
 */
 
-int go_chercher_la_distance_du_rayon_mec(t_ray *ray, t_player *player)
+void init_struct_ray(t_game *game)
 {
-	if (ray->side == 1)
+	game->ray.dirx = 0;
+	game->ray.diry = 0;
+	game->ray.deltax = 0;
+	game->ray.deltay = 0;
+}
+
+
+int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
+{
+	if (game->ray.side == 1)
 	{
 		//on calcule la distance entre la camera
-		ray->dist = (ray->mapy - player->posy + (1 - ray->stepy) / 2) / ray->diry;
-		ray->wallx = player->posx + ray->dist * ray->dirx;
+		game->ray.dist = (game->ray.mapy - player->posy + (1 - game->ray.stepy) / 2) / game->ray.diry;
+		game->ray.wallx = player->posx + game->ray.dist * game->ray.dirx;
 	}
 	else
 	{
-		ray->dist = (ray->mapx - player->posx + (1 - ray->stepx) / 2) / ray->dirx;
-		ray->wallx = player->posy + ray->dist * ray->diry;
+		game->ray.dist = (game->ray.mapx - player->posx + (1 - game->ray.stepx) / 2) / game->ray.dirx;
+		game->ray.wallx = player->posy + game->ray.dist * game->ray.diry;
 	}
-	ray->line_height = (int)(HEIGHT / ray->dist); // on calcule la taille de la ligne quon  doit dessiner sur lecran
-	ray->FirstPixel = -ray->line_height / 2 + HEIGHT / 2; // on calcule la pixel la plus basse et plus haute ds la bande
-	if (ray->FirstPixel < 0)
-		ray->FirstPixel = 0;
-	ray->PixelLast = ray->line_height / 2 + HEIGHT / 2;
-	if (ray->PixelLast >= HEIGHT)
-		ray->PixelLast = HEIGHT - 1;
+	game->ray.line_height = (int)(HEIGHT / game->ray.dist); // on calcule la taille de la ligne quon  doit dessiner sur lecran
+	game->ray.FirstPixel = -game->ray.line_height / 2 + HEIGHT / 2; // on calcule la pixel la plus basse et plus haute ds la bande
+	if (game->ray.FirstPixel < 0)
+		game->ray.FirstPixel = 0;
+	game->ray.PixelLast = game->ray.line_height / 2 + HEIGHT / 2;
+	if (game->ray.PixelLast >= HEIGHT)
+		game->ray.PixelLast = HEIGHT - 1;
 	
 	// la valeur de HEIGHT fait que les murs sont des cubes de taille identik
 	return (0);
 }
 
-int go_chercher_les_murs(t_ray *ray, t_map *map)
+void go_chercher_les_murs(t_game *game, t_map *map)
 {
 	int mur;
 
@@ -106,51 +115,51 @@ int go_chercher_les_murs(t_ray *ray, t_map *map)
 	while (mur == 0)
 	{
 	// on parcour chqe cube soit ds la direction de x ou y
-		if (ray->sidex < ray->sidey)
+		if (game->ray.sidex < game->ray.sidey)
 		{
-			ray->sidex += ray->deltax;
-			ray->mapx += ray->stepx;
-			ray->side = 0;
+			game->ray.sidex += game->ray.deltax;
+			game->ray.mapx += game->ray.stepx;
+			game->ray.side = 0;
 		}
 		else
 		{
-			ray->sidey += ray->deltay;
-			ray->mapy += ray->stepy;
-			ray->side = 1;
+			game->ray.sidey += game->ray.deltay;
+			game->ray.mapy += game->ray.stepy;
+			game->ray.side = 1;
 		}
-		if (map->map[ray->mapx][ray->mapy] > 0) 
+		if (map->map[game->ray.mapx][game->ray.mapy] == '1') 
 			mur = 1;
 		// est ce que on a hit un mur ou pas
 		// si c ok on passe au calcul de la distance du rayon jusko mur
 	}
-	return (0);
+	go_chercher_la_distance_du_rayon_mec(game, &game->player);
 }
 
-int verification_ray(t_ray *ray, t_player *player)
+void verification_ray(t_game *game, t_player *player)
 {
 	// on alcule la distance que le ray doit faire entre son point de depart et le premier croisement avec labcisse et lordonne
 	// ces distances sincremente des que le player fait un pas
-	if (ray->dirx < 0)
+	if (game->ray.dirx < 0)
 	{
-		ray->stepx = -1;
-		ray->sidex = (player->posx - ray->mapx) * ray->deltax;
+		game->ray.stepx = -1;
+		game->ray.sidex = (player->posx - game->ray.mapx) * game->ray.deltax;
 	}
 	else
 	{
-		ray->stepx = 1;
-		ray->sidex = (ray->mapx + 1.0 - player->posx) * ray->deltax;
+		game->ray.stepx = 1;
+		game->ray.sidex = (game->ray.mapx + 1.0 - player->posx) * game->ray.deltax;
 	}
-	if (ray->diry < 0)
+	if (game->ray.diry < 0)
 	{
-		ray->stepy= -1;
-		ray->sidey = (player->posy - ray->mapy) * ray->deltay;
+		game->ray.stepy= -1;
+		game->ray.sidey = (player->posy - game->ray.mapy) * game->ray.deltay;
 	}
 	else
 	{
-		ray->stepy = 1;
-		ray->sidey = (ray->mapy + 1.0 - player->posy) * ray->deltay;
+		game->ray.stepy = 1;
+		game->ray.sidey = (game->ray.mapy + 1.0 - player->posy) * game->ray.deltay;
 	}
-	return (0);
+	go_chercher_les_murs(game, &game->map);
 }
 
 
@@ -159,15 +168,26 @@ int init_ray(t_game *game, t_player *player, int col)
 	//tuto
 	game->ray.mapx = (int)player->posx; // ds quelle case de la map suis je
 	game->ray.mapy = (int)player->posy;
+	game->ray.dist = 0;
 	game->ray.camerax = 2 * col / (double)WIDTH - 1;
 	// on calcule la taille du ray du point de depart x ou y jusquau prochain croisement de x ou y
 	game->ray.dirx = player->dirx + player->planex * (double)game->ray.camerax;
-	game->ray.diry = player->diry + player->planey * (double)game->ray.camerax; 
-	game->ray.deltax = sqrt(1 + (game->ray.diry * game->ray.diry)
-			/ (game->ray.dirx * game->ray.dirx));
-	game->ray.deltay = sqrt(1 + (game->ray.dirx * game->ray.dirx)
+	game->ray.diry = player->diry + player->planey * (double)game->ray.camerax;
+	if (game->ray.diry == 0)
+		game->ray.deltax = 0;
+	else if (game->ray.dirx == 0)
+		game->ray.deltax = 1;
+	else 
+		game->ray.deltax = sqrt(1 + (game->ray.diry * game->ray.diry) 
+		/ (game->ray.dirx * game->ray.dirx));
+	if (game->ray.dirx == 0)
+		game->ray.deltay = 0;
+	else if (game->ray.diry == 0)
+		game->ray.deltay = 1;
+	else
+		game->ray.deltay = sqrt(1 + (game->ray.dirx * game->ray.dirx)
 			/ (game->ray.diry * game->ray.diry));
-	verification_ray(&game->ray, player);
+	//verification_ray(&game->ray, player);
 	return (0);
 }
 
@@ -178,12 +198,11 @@ int raycasting(t_game *game)
 	col = -1;
 	while(++col < WIDTH)
 	{
-		if (init_ray(game, &game->player, col) == -2)
-			return (-2); // faut proteger cette fonction
-	
-	go_chercher_les_murs(&game->ray, &game->map);
-	go_chercher_la_distance_du_rayon_mec(&game->ray, &game->player);
-	texture_colonne(game, &game->ray, col);
+		init_ray(game, &game->player, col);
+		verification_ray(game, &game->player);
+	//go_chercher_les_murs(&game->ray, &game->map);
+	//go_chercher_la_distance_du_rayon_mec(&game->ray, &game->player);
+	texture_colonne(game, col);
 	// its about to go down
 	// if (game->ray.side == 0 && game->ray.dirx > 0)
 	// 	texture_colonne(game, &game->ray, col, 'E');
