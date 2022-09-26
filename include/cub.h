@@ -139,7 +139,14 @@ typedef struct s_ray
 	double sidey;
 	double deltax;
 	double deltay;
+	int		texture;
 } t_ray;
+
+typedef struct s_texture
+{
+	int texdir;
+	double wallx;
+} t_texture;
 
 typedef struct s_game
 {
@@ -149,7 +156,8 @@ typedef struct s_game
 	t_map		map;
 	t_img			*img;
 	t_assets	assets;
-	t_img		texture[4]; // plus tard
+	t_texture	texture;
+	//t_img		texture[4]; // plus tard
 	t_window	window;
 	unsigned int	plafond;
 	unsigned int	sol;
@@ -199,6 +207,7 @@ void 	angles_de_ses_morts(t_game *game);
 void exec(t_game *game);
 int raycasting(t_game *game);
 int loop(t_game *game);
-void texture_colonne(t_game *game, t_ray *ray);
+int texture_colonne(t_game *game, int col);
+//void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
 
 #endif

@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+ /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   angles.c                                           :+:      :+:    :+:   */
@@ -93,6 +93,7 @@ int go_chercher_la_distance_du_rayon_mec(t_ray *ray, t_player *player)
 	ray->PixelLast = ray->line_height / 2 + HEIGHT / 2;
 	if (ray->PixelLast >= HEIGHT)
 		ray->PixelLast = HEIGHT - 1;
+	
 	// la valeur de HEIGHT fait que les murs sont des cubes de taille identik
 	return (0);
 }
@@ -182,17 +183,18 @@ int raycasting(t_game *game)
 	
 	go_chercher_les_murs(&game->ray, &game->map);
 	go_chercher_la_distance_du_rayon_mec(&game->ray, &game->player);
+	texture_colonne(game, &game->ray, col);
 	// its about to go down
-
-// 	if (game->ray.side == 0 && game->ray.dirx > 0)
-// 		texture_colonne(game, &game->ray, col, 'E');
-// 	else if (game->ray.side == 0 && game->ray.dirx <= 0)
-// 		texture_colonne(game, &game->ray, col, 'W');
-// 	else if (game->ray.side == 1 && game->ray.dirx > 0)
-// 		texture_colonne(game, &game->ray, col, 'S');
-// 	else if (game->ray.side == 1 && game->ray.dirx <= 0)
-// 		texture_colonne(game, &game->ray, col, 'N');
+	// if (game->ray.side == 0 && game->ray.dirx > 0)
+	// 	texture_colonne(game, &game->ray, col, 'E');
+	// else if (game->ray.side == 0 && game->ray.dirx <= 0)
+	// 	texture_colonne(game, &game->ray, col, 'W');
+	// else if (game->ray.side == 1 && game->ray.dirx > 0)
+	// 	texture_colonne(game, &game->ray, col, 'S');
+	// else if (game->ray.side == 1 && game->ray.dirx <= 0)
+	// 	texture_colonne(game, &game->ray, col, 'N');
 
 	}
 	return(0);
+
 }
