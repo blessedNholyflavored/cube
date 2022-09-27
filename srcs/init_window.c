@@ -80,9 +80,9 @@ void	ft_get_texture_adress(t_game *game)
 	game->texture[3].addr = (int *)mlx_get_data_addr(game->texture[3].img,
 			&game->texture[3].bits_per_pixel,
 			&game->texture[3].line_length, &game->texture[3].endian);
-	game->texture[4].addr = (int *)mlx_get_data_addr(game->texture[4].img,
-			&game->texture[4].bits_per_pixel,
-			&game->texture[4].line_length, &game->texture[4].endian);
+	// game->texture[4].addr = (int *)mlx_get_data_addr(game->texture[4].img,
+	// 		&game->texture[4].bits_per_pixel,
+	// 		&game->texture[4].line_length, &game->texture[4].endian);
 }
 
 // int     set_text(t_game *game)
@@ -111,7 +111,7 @@ void	ft_get_texture_adress(t_game *game)
 void	set_text(t_game *game)
 {
 	if (!(game->texture[0].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->no, &(game->texture[0].width),
+					game->setup.path_no, &(game->texture[0].width),
 					&(game->texture[0].height))))
 	{
 		free(game->no);
@@ -119,33 +119,33 @@ void	set_text(t_game *game)
 	}
 		//ft_error(game, "Texture SO\n");
 	if (!(game->texture[1].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->so, &(game->texture[1].width),
+					game->setup.path_so, &(game->texture[1].width),
 					&(game->texture[1].height))))
 	{
 		free(game->so);
 		printf("error\n");
 	}//		ft_error(game, "Texture NO\n");
 	if (!(game->texture[2].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->we, &(game->texture[2].width),
+					game->setup.path_we, &(game->texture[2].width),
 					&(game->texture[2].height))))
 		{
 		free(game->we);
 		printf("error\n");
 	}		//ft_error(game, "Texture EA\n");
 	if (!(game->texture[3].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->ea, &(game->texture[3].width),
+					game->setup.path_ea, &(game->texture[3].width),
 					&(game->texture[3].height))))
 	{
 		free(game->ea);
 		printf("error\n");
 	}		//ft_error(game, "Texture WE\n");
-	if (!(game->texture[4].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->sp, &(game->texture[4].width),
-					&(game->texture[4].height))))
-		{
-		free(game->sp);
-		printf("error\n");
-		}
+	// if (!(game->texture[4].img = mlx_xpm_file_to_image(game->window.mlx,
+	// 				game->setup.path_sp, &(game->texture[4].width),
+	// 				&(game->texture[4].height))))
+	// 	{
+	// 	free(game->sp);
+	// 	printf("error\n");
+	// 	}
 		//ft_error(game, "Texture S\n");
 	ft_get_texture_adress(game);
 }

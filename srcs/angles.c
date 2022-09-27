@@ -110,7 +110,7 @@ int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
 	return (0);
 }
 
-void go_chercher_les_murs(t_game *game, t_map *map)
+void go_chercher_les_murs(t_game *game)
 {
 	int mur;
 
@@ -120,6 +120,7 @@ void go_chercher_les_murs(t_game *game, t_map *map)
 	// on parcour chqe cube soit ds la direction de x ou y
 		if (game->ray.sidex < game->ray.sidey)
 		{
+			printf("%f\n", game->ray.sidex);
 			game->ray.sidex += game->ray.deltax;
 			game->ray.mapx += game->ray.stepx;
 			game->ray.side = 0;
@@ -130,8 +131,12 @@ void go_chercher_les_murs(t_game *game, t_map *map)
 			game->ray.mapy += game->ray.stepy;
 			game->ray.side = 1;
 		}
-		if (map->map[game->ray.mapx][game->ray.mapy] == '1') 
+		printf("x %d, y %d\n", game->ray.mapx, game->ray.mapy);
+		printf("mur %d\n", mur);
+		if (game->map.map[game->ray.mapx][game->ray.mapy] == '1')
+		{
 			mur = 1;
+		}
 		// est ce que on a hit un mur ou pas
 		// si c ok on passe au calcul de la distance du rayon jusko mur
 	}
@@ -162,7 +167,7 @@ void verification_ray(t_game *game, t_player *player)
 		game->ray.stepy = 1;
 		game->ray.sidey = (game->ray.mapy + 1.0 - player->posy) * game->ray.deltay;
 	}
-	go_chercher_les_murs(game, &game->map);
+	go_chercher_les_murs(game);
 }
 
 
@@ -176,18 +181,18 @@ int init_ray(t_game *game, t_player *player, int col)
 	// on calcule la taille du ray du point de depart x ou y jusquau prochain croisement de x ou y
 	game->ray.dirx = player->dirx + player->planex * (double)game->ray.camerax;
 	game->ray.diry = player->diry + player->planey * (double)game->ray.camerax;
-	if (game->ray.diry == 0)
-		game->ray.deltax = 0;
-	else if (game->ray.dirx == 0)
-		game->ray.deltax = 1;
-	else 
+	// if (game->ray.diry == 0)
+	// 	game->ray.deltax = 0;
+	// else if (game->ray.dirx == 0)
+	// 	game->ray.deltax = 1;
+	// else 
 		game->ray.deltax = sqrt(1 + (game->ray.diry * game->ray.diry) 
 		/ (game->ray.dirx * game->ray.dirx));
-	if (game->ray.dirx == 0)
-		game->ray.deltay = 0;
-	else if (game->ray.diry == 0)
-		game->ray.deltay = 1;
-	else
+	// if (game->ray.dirx == 0)
+	// 	game->ray.deltay = 0;
+	// else if (game->ray.diry == 0)
+	// 	game->ray.deltay = 1;
+	// else
 		game->ray.deltay = sqrt(1 + (game->ray.dirx * game->ray.dirx)
 			/ (game->ray.diry * game->ray.diry));
 	//verification_ray(&game->ray, player);

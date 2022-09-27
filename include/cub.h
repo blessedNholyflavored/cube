@@ -50,7 +50,6 @@ typedef struct s_map
 	int		max_y;
 	char	**file;
 	char	**map;
-	int		nb_lignes; //nb de ligne ds la map
 }			t_map;
 
 typedef struct s_check
@@ -64,6 +63,7 @@ typedef struct s_check
 	int	e;
 	int	f;
 	int	c;
+	int sp;
 }			t_check;
 
 typedef struct s_color
@@ -79,6 +79,7 @@ typedef struct s_setup
 	char	*path_so;
 	char	*path_we;
 	char	*path_ea;
+	char 	*path_sp;
 	t_color	floor;
 	t_color	ceiling;
 }			t_setup;

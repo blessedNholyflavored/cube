@@ -41,6 +41,36 @@ int	check_no(t_game *game, char **file, int *x, int y)
 	return (0);
 }
 
+// ////iciiiiiiiiiiiiiii 
+// int	check_sp(t_game *game, char **file, int *x, int y)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = *x;
+// 	j = 0;
+// 	if (file[y][i + 1] != 'O')
+// 		return (1);
+// 	i += 2;
+// 	while (file[y][i] == ' ')
+// 		i++;
+// 	if (file[y][i] != '.' || file[y][i + 1] != '/')
+// 		return (1);
+// 	game->setup.path_sp = malloc(ft_strlen_space(file[y] + i) + 1);
+// 	if (!game->setup.path_sp)
+// 		return (1);
+// 	while (file[y][i] && file[y][i] != ' ')
+// 	{
+// 		game->setup.path_sp[j] = file[y][i];
+// 		i++;
+// 		j++;
+// 	}
+// 	game->setup.path_sp[j] = '\0';
+// 	game->check.sp += 1;
+// 	*x = i;
+// 	return (0);
+// }
+
 int	check_so(t_game *game, char **file, int *x, int y)
 {
 	int	i;

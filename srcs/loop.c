@@ -118,7 +118,7 @@ int loop(t_game *game)
 	set_text(game);
 	init_struct_ray(game);
 	game->img->img = mlx_new_image(game->window.mlx, WIDTH, HEIGHT);
-	game->img->addr = mlx_get_data_addr(game->img->img, &game->img->bpp,
+	game->img->addr = (int *)mlx_get_data_addr(game->img->img, &game->img->bpp,
 			&game->img->line_length, &game->img->endian);
 	raycasting(game);
 	

@@ -31,6 +31,7 @@ void	init_struct(t_game *game)
 	game->setup.path_no = NULL;
 	game->setup.path_we = NULL;
 	game->setup.path_ea = NULL;
+//	game->setup.path_sp = NULL;
 
 	game->texture[0].img = NULL;
 	game->texture[1].img = NULL;

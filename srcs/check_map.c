@@ -28,7 +28,7 @@ int	check_dir(double x, double y, char c, t_game *game)
 		game->player.dir = WEST;
 	game->player.posx = x;
 	game->player.posy = y;
-	printf("%d\n", game->player.dir);
+	printf("%f\n", game->player.posy);
 	return (0);
 }
 

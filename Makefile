@@ -17,7 +17,7 @@ CC =		clang
 
 RM =		rm -f
 
-CFLAGS =	-Wall -Werror -Wextra -g
+CFLAGS =	-Wall -Werror -Wextra -g3
 
 MLX =		./minilibx
 
