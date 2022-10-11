@@ -55,23 +55,6 @@
 // }
 
 
-// int	count_colonnes(t_game *game)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (game->map.map[i])
-// 		i++;
-// 	return (i);
-// }
-
-/*
-Trouver le premier point d’intersection sur X (X1)
-Trouver le multiplicateur (Ya : + le rayon est orienté vers le bas, - il est orienté vers le haut)
-Trouver la distance entre deux points d’intersection sur X (X2-X1 donne Xa)
-Tant que le prochain point d’intersection n’est pas un mur (pas une case remplie avec un 0) on vérifie le prochain point d’intersection (X2 * Xa, Ya * Ya).
-si c’est le cas on arrête la vérification et on calcule la distance parcourue par le rayon
-*/
 
 void init_struct_ray(t_game *game)
 {
@@ -82,8 +65,9 @@ void init_struct_ray(t_game *game)
 	game->ray.side = 0;
 	game->ray.PixelLast = 0;
 	game->ray.FirstPixel = 0;
+	//game->zbuffer = (double *)malloc(sizeof(double) * WIDTH);
+	//	exit(0);
 }
-
 
 int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
 {
@@ -120,7 +104,6 @@ void go_chercher_les_murs(t_game *game)
 	// on parcour chqe cube soit ds la direction de x ou y
 		if (game->ray.sidex < game->ray.sidey)
 		{
-			printf("%f\n", game->ray.sidex);
 			game->ray.sidex += game->ray.deltax;
 			game->ray.mapx += game->ray.stepx;
 			game->ray.side = 0;
@@ -131,10 +114,10 @@ void go_chercher_les_murs(t_game *game)
 			game->ray.mapy += game->ray.stepy;
 			game->ray.side = 1;
 		}
-		printf("x %d, y %d\n", game->ray.mapx, game->ray.mapy);
-		printf("mur %d\n", mur);
-		if (game->map.map[game->ray.mapx][game->ray.mapy] == '1')
+		
+		if (game->map.map[game->ray.mapy][game->ray.mapx] == '1')
 		{
+			printf("oui");
 			mur = 1;
 		}
 		// est ce que on a hit un mur ou pas
@@ -195,33 +178,136 @@ int init_ray(t_game *game, t_player *player, int col)
 	// else
 		game->ray.deltay = sqrt(1 + (game->ray.dirx * game->ray.dirx)
 			/ (game->ray.diry * game->ray.diry));
-	//verification_ray(&game->ray, player);
 	return (0);
 }
+
+// void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+// {
+// 	img->addr[WIDTH * y + x] = color;
+// }
+
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
+	}
+
+// void	draw_px_col(t_game *game, t_ray *ray, int cpt)
+// {
+// 	int	px;
+// 	//unsigned int color;
+
+// 	if (ray->FirstPixel > 0)
+// 	{
+// 		px = -1;
+// 		while (++px < ray->FirstPixel)
+// 		{
+// 			my_mlx_pixel_put(game->img, cpt, px, 0x17657D); // bleu
+// 			printf("ui\n");
+// 		}
+// 	}
+// 	px = ray->FirstPixel - 1;
+// 	while (++px < ray->PixelLast)
+// 	{
+// 		//color = plafond_shade(game->setup.ceiling.red, px);
+// 		my_mlx_pixel_put(game->img, cpt, px, 0xC8AD7F); // marron
+// 					printf("feefei\n");
+// 	}
+// 	while (px < HEIGHT)
+// 	{
+// 		my_mlx_pixel_put(game->img, cpt, px,  0xFFFF00); //jaune
+// 					printf("ufefef\n");
+// 		px++;
+// 	}
+// }
+
+
+int	rgb2int(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
+}
+
+// void	draw_px_col(t_game *game, t_ray *ray, int cpt)
+
+void	draw_px_col(t_game *game)
+{
+	int	x;
+	int	y;
+	int	sky_color;
+	int	floor_color;
+
+	sky_color = rgb2int(187, 67, 41);//, c->col.rgb_s[1], c->col.rgb_s[2]);
+	floor_color = rgb2int(24, 30,218);//c->col.rgb_f[0], c->col.rgb_f[1], c->col.rgb_f[2]);
+	y = -1;
+	while (++y < WIDTH)
+	{
+		x = -1;
+		while (++x < HEIGHT)
+		{
+			if (x < HEIGHT / 2)
+				my_mlx_pixel_put(game->img, y, x, sky_color);
+			else
+				my_mlx_pixel_put(game->img, y, x, floor_color);
+		}
+	}
+}
+
+// int texture_colonne(t_game *game, int col)
+// {
+// //le but cest de mettre les textures a la meme taille que les murs
+// 	int i;
+// 	int j;
+
+// 	j = -1;
+// 	col = 0;
+// 	game->ray.PixelLast = HEIGHT - game->ray.FirstPixel;
+// 	i = game->ray.PixelLast;
+// 	while(++j < game->ray.FirstPixel)
+// 		game->img->addr[j * game->img->line_length / 4 + col] = game->plafond;
+// 	 if (j <= game->ray.PixelLast)
+// 	 	draw_shit(game, col, j);
+// 	j = i;
+// 	while ( ++j < HEIGHT)
+// 		game->img->addr[j * game->img->line_length / 4 + col] = game->sol;
+// 	 return (0);
+// }
 
 int raycasting(t_game *game)
 {
 	int col;
 	
 	col = -1;
-	while(++col < WIDTH)
-	{
+	// while(++col < WIDTH)
+	// {
 		init_ray(game, &game->player, col);
 		verification_ray(game, &game->player);
-	//go_chercher_les_murs(&game->ray, &game->map);
-	//go_chercher_la_distance_du_rayon_mec(&game->ray, &game->player);
-	texture_colonne(game, col);
+		draw_px_col(game);//, &game->ray), col);		
+	//}
+	
 	// its about to go down
 	// if (game->ray.side == 0 && game->ray.dirx > 0)
-	// 	texture_colonne(game, &game->ray, col, 'E');
+	// {
+	// 	printf("1");
+	// 		texture_colonne(game, &game->ray, col, 'E');
+	// }
 	// else if (game->ray.side == 0 && game->ray.dirx <= 0)
+	// {
+	// 	printf("2");
 	// 	texture_colonne(game, &game->ray, col, 'W');
+	// }
 	// else if (game->ray.side == 1 && game->ray.dirx > 0)
+	// {
+	// 	printf("3");
 	// 	texture_colonne(game, &game->ray, col, 'S');
+	// }
 	// else if (game->ray.side == 1 && game->ray.dirx <= 0)
+	// {
+	// 	printf("4");
 	// 	texture_colonne(game, &game->ray, col, 'N');
-
-	}
+	//}
+	
 	return(0);
 
 }

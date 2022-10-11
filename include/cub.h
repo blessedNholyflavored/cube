@@ -99,7 +99,7 @@ typedef struct s_player
 typedef struct s_img
 {
 	void	*img;
-	int		*addr;
+	void		*addr;
 	int		bpp;
 	int		line_length;
 	int		endian;
@@ -160,7 +160,6 @@ typedef struct s_game
 	char *	so;
 	char *	no;
 	char *	ea;
-	char *sp;
 	t_player	player;
 	t_setup		setup;
 	t_check		check;
@@ -172,6 +171,8 @@ typedef struct s_game
 	t_window	window;
 	unsigned int	plafond;
 	unsigned int	sol;
+	double			*zbuffer;
+
 	t_ray		ray;
 }			t_game;
 
@@ -222,5 +223,8 @@ int texture_colonne(t_game *game, int col);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
 void init_struct_ray(t_game *game);
 void	get_texture(t_game *game);
+//void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
+void draw_shit(t_game *game, int x, int y);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 #endif

@@ -52,16 +52,11 @@ int     init_window(t_game *game)
 		game->img = malloc(sizeof(t_img));
 		if (!game->img) // free game;
 			return (1);
-		// if (set_text(game))
-        // {
-        //     	printf("error\nTexture didn't load\n");
-        //        	return (1);
-        // }
-		// angles, exec et texture
- 		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
+ 		loop(game);
+		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
 		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
 		//mlx_loop(game->window.mlx);
-		mlx_loop_hook(game->window.mlx, loop, game);
+		//mlx_loop_hook(game->window.mlx, loop, game);
 		mlx_loop(game->window.mlx);
         return (0);
 }

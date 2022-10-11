@@ -3,7 +3,7 @@ NAME =		cub3d
 SRCS =		srcs/check_arg.c srcs/check_arg2.c srcs/check_map.c \
 			srcs/check.c srcs/ft_atoi.c srcs/get_next_line.c srcs/main.c \
 			srcs/set_map.c srcs/utils.c srcs/utils2.c srcs/init_window.c \
-			srcs/angles.c srcs/loop.c
+			srcs/angles.c srcs/loop.c 
 
 _DEPS =		cub.h
 

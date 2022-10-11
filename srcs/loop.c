@@ -60,67 +60,40 @@ void	init_texture(t_game *game)
 }
 
 
-void draw_shit(t_game *game, int x, int y)
-{
-	y = game->ray.FirstPixel - 1;
-	init_texture(game);
-	game->text.step = 1.0 * game->texture[game->text.texdir].height  / game->ray.line_height;
-	game->text.texx = (int)(game->text.wallx * (double)game->texture[game->text.texdir].width);
-	if (game->ray.side == 0 && game->ray.dirx > 0)
-		game->text.texx = game->texture[game->text.texdir].width - game->text.texx - 1;
-	if (game->ray.side == 1 && game->ray.diry < 0)
-		game->text.texx = game->texture[game->text.texdir].width - game->text.texx - 1;
-	game->text.texpos = (game->ray.FirstPixel - HEIGHT / 2 + game->ray.line_height / 2) * game->text.step;
-	while (++y <= game->ray.PixelLast)
-	{
-		game->text.texy = (int)game->text.texpos &(game->texture[game->text.texdir].height - 1);
-		game->text.texpos += game->text.step;
+// void draw_shit(t_game *game, int x, int y)
+// {
+// 	y = game->ray.FirstPixel - 1;
+// 	init_texture(game);
+// 	game->text.step = 1.0 * game->texture[game->text.texdir].height  / game->ray.line_height;
+// 	//om choppe coordonnees de textures
+// 	game->text.texx = (int)(game->text.wallx * (double)game->texture[game->text.texdir].width);
+// 	if (game->ray.side == 0 && game->ray.dirx > 0)
+// 		game->text.texx = game->texture[game->text.texdir].width - game->text.texx - 1;
+// 	if (game->ray.side == 1 && game->ray.diry < 0)
+// 		game->text.texx = game->texture[game->text.texdir].width - game->text.texx - 1;
+// 	game->text.texpos = (game->ray.FirstPixel - HEIGHT / 2 + game->ray.line_height / 2) * game->text.step;
+// 	while (++y <= game->ray.PixelLast)
+// 	{
+// 		game->text.texy = (int)game->text.texpos &(game->texture[game->text.texdir].height - 1);
+// 		game->text.texpos += game->text.step;
 
-		/*    Uint32 color = texture[texNum][texHeight * texY + texX];
-        //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        if(side == 1) color = (color >> 1) & 8355711;
-        buffer[y][x] = color;
-		*/
-		if (y < HEIGHT && x < WIDTH)
-			game->img->addr[y * game->img->line_length / 4 + x] =
-				game->img[game->text.texdir].addr[game->text.texy * //normalement img au lieu de texture
-					game->img[game->text.texdir].line_length / 4 + game->text.texx];
-	}
-}
-
-// taille mur = tille fenetre / perpaldist
-
-int texture_colonne(t_game *game, int col)
-{
-//le but cest de mettre les textures a la meme taille que les murs
-	int i;
-	int j;
-
-	j = -1;
-//	col = 0;
-	game->ray.PixelLast = HEIGHT - game->ray.FirstPixel;
-	i = game->ray.PixelLast;
-	while(++j < game->ray.FirstPixel)
-		game->img->addr[j * game->img->line_length / 4 + col] = game->plafond;
-	if (j <= game->ray.PixelLast)
-		draw_shit(game, col, j);
-	// j = i;
-	// while ( ++j < HEIGHT)
-	// 	game->img->addr[j * game->img->line_length / 4 + col] = game->sol;
-	 return (0);
-}
-
-
+// 		if (y < HEIGHT && x < WIDTH)
+// 			game->img->addr[y * game->img->line_length / 4 + x] =
+// 				game->img[game->text.texdir].addr[game->text.texy * //normalement img au lieu de texture
+// 					game->img[game->text.texdir].line_length / 4 + game->text.texx];
+// 	}
+// }
 
 
 int loop(t_game *game)
 {
-	set_text(game);
+	set_text(game);//proteger fonction
 	init_struct_ray(game);
 	game->img->img = mlx_new_image(game->window.mlx, WIDTH, HEIGHT);
-	game->img->addr = (int *)mlx_get_data_addr(game->img->img, &game->img->bpp,
+	game->img->addr = mlx_get_data_addr(game->img->img, &game->img->bits_per_pixel,
 			&game->img->line_length, &game->img->endian);
 	raycasting(game);
+	
 	
 	mlx_put_image_to_window(game->window.mlx, game->window.mlx_win, game->img->img, 0, 0);
 	mlx_destroy_image(game->window.mlx, game->img->img);
