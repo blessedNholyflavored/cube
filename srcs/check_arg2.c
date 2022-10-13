@@ -6,7 +6,7 @@
 /*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:26:16 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/07/07 10:51:20 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/13 18:04:19 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,13 +143,15 @@ int	check_setup(t_game *game)
 				if (find_arg(game, file, &x, y))
 					return (1);
 			}
-				else
-					while (file[y][x])
-					{
-						if (file[y][x] != ' ')
-							return (1);
-						x++;
-					}
+			else
+			{
+				while (file[y][x])
+				{
+					if (file[y][x] != ' ')
+						return (1);
+					x++;
+				}
+			}
 			if (!file[y][x])
 				break ;
 			x++;

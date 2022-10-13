@@ -31,6 +31,39 @@
 // https://i2.wp.com/www.methodemaths.fr/cercletrigonometrique.jpg?w=584
 
 
+void	init_dir(t_game *game)
+{
+	printf("%d, %d, %d, %d \n\n\n", game->check.n, game->check.s, game->check.e, game->check.w);
+	if (game->player.dir == NORTH)
+	{
+		game->player.dirx = -1;
+		game->player.diry = 0;
+		game->player.planex = 0;
+		game->player.planey = 0.66;
+	}
+	else if (game->player.dir == SOUTH)
+	{
+		game->player.dirx = 1;
+		game->player.diry = 0;
+		game->player.planex = 0;
+		game->player.planey = -0.66;
+	}
+	else if(game->player.dir == EAST)
+	{
+		game->player.dirx = 0;
+		game->player.diry = -1;
+		game->player.planex = 0.66;
+		game->player.planey = 0;
+	}
+	else
+	{
+		game->player.dirx = 0;
+		game->player.diry = 1;
+		game->player.planex = -0.66;
+		game->player.planey = 0;
+	}
+}
+
 void init_struct_ray(t_game *game)
 {
 	game->ray.dirx = 0;
@@ -42,10 +75,10 @@ void init_struct_ray(t_game *game)
 	game->ray.FirstPixel = 0;
 	game->ray.sidex = 0;
 	game->ray.sidey = 0;
+	init_dir(game);
 	//game->zbuffer = (double *)malloc(sizeof(double) * WIDTH);
 	//	exit(0);
 }
-
 int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
 {
 	if (game->ray.side == 1)
@@ -94,7 +127,7 @@ void go_chercher_les_murs(t_game *game) // dda
 		
 		if (game->map.map[game->ray.mapy][game->ray.mapx] == '1')
 		{
-			//printf("oui");
+			printf("oui %d, %d \n", game->ray.mapy, game->ray.mapx);
 			mur = 1;
 		}
 		// est ce que on a hit un mur ou pas
@@ -105,8 +138,10 @@ void go_chercher_les_murs(t_game *game) // dda
 
 void verification_ray(t_game *game, t_player *player)
 {
+
 	// on alcule la distance que le ray doit faire entre son point de depart et le premier croisement avec labcisse et lordonne
 	// ces distances sincremente des que le player fait un pas
+	//printf("posx= = %f, mapx = %d, deltax = %f\n", player->posx, game->ray.mapx, game->ray.deltax);
 	if (game->ray.dirx < 0)
 	{
 		game->ray.stepx = -1;
@@ -127,6 +162,7 @@ void verification_ray(t_game *game, t_player *player)
 		game->ray.stepy = 1;
 		game->ray.sidey = (game->ray.mapy + 1.0 - player->posy) * game->ray.deltay;
 	}
+	//printf("sidex = %f, sidey = %f\n", game->ray.sidex, game->ray.sidey);
 	//go_chercher_les_murs(game);
 }
 
@@ -135,14 +171,20 @@ int init_ray(t_game *game, t_player *player, int col)
 {
 	game->ray.mapx = (int)player->posx; // ds quelle case de la map suis je
 	game->ray.mapy = (int)player->posy;
+//	printf("mapx = %d, mapy = %d\n", game->ray.mapx, game->ray.mapy);
 	game->ray.dist = 0;
 	game->ray.camerax = 2 * col / (double)WIDTH - 1;
 	// on calcule la taille du ray du point de depart x ou y jusquau prochain croisement de x ou y
-	game->ray.dirx = player->dirx + player->planex * (double)game->ray.camerax;
-	game->ray.diry = player->diry + player->planey * (double)game->ray.camerax;
+//	printf("raycamx = %f\n", game->ray.camerax);
+//	printf("planex = %f, planey = %f\n", player->planex, player->planey);
+//	printf("playerdirx = %f, playerdiry = %f\n", player->dirx, player->diry);
+	game->ray.dirx = player->dirx + player->planex * game->ray.camerax;
+	game->ray.diry = player->diry + player->planey * game->ray.camerax;
+	printf("raydirx = %f, raydiry = %f\n", game->ray.dirx, game->ray.diry);
 	game->ray.deltax = fabs(1 / game->ray.dirx);
 	game->ray.deltay = fabs(1 / game->ray.diry);
-	return (0);
+	printf("first deltax = %f, deltay = %f\n\n\n", game->ray.deltax, game->ray.deltay);
+ 	return (0);
 }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
@@ -246,7 +288,7 @@ int raycasting(t_game *game)
 		verification_ray(game, &game->player);
 		go_chercher_les_murs(game);
 		go_chercher_la_distance_du_rayon_mec(game, &game->player);
-		testing(game, col);
+//		testing(game, col);
 		// draw_px_col(game);//, &game->ray), col);	
 	//}
 
