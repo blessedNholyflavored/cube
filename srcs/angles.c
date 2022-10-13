@@ -30,31 +30,6 @@
 // on recupere les angles grace au truc du cercle trigonometrique oe oe oe 
 // https://i2.wp.com/www.methodemaths.fr/cercletrigonometrique.jpg?w=584
 
-// void angles_de_ses_morts(t_game *game)
-// {
-// 	// on init les angles
-// 	int i;
-// 	int j;
-
-// 	i = 0;
-// 	while(game->map.map[++i])
-// 	{
-// 		j = -1;
-// 		while(game->map.map[++j])
-// 		{
-// 			if(game->map.map[i][j] == 'N')
-// 				set_angle(game, j, i, 'N');
-// 			else if (game->map.map[i][j] == 'S')
-// 				set_angle(game, j, i, 'S');
-// 			else if (game->map.map[i][j] == 'E')
-// 				set_angle(game, j, i, 'E');
-// 			else if (game->map.map[i][j] == 'W')
-// 				set_angle(game, j, i, 'W');
-// 		}
-// 	}
-// }
-
-
 
 void init_struct_ray(t_game *game)
 {
@@ -65,6 +40,8 @@ void init_struct_ray(t_game *game)
 	game->ray.side = 0;
 	game->ray.PixelLast = 0;
 	game->ray.FirstPixel = 0;
+	game->ray.sidex = 0;
+	game->ray.sidey = 0;
 	//game->zbuffer = (double *)malloc(sizeof(double) * WIDTH);
 	//	exit(0);
 }
@@ -94,7 +71,7 @@ int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
 	return (0);
 }
 
-void go_chercher_les_murs(t_game *game)
+void go_chercher_les_murs(t_game *game) // dda
 {
 	int mur;
 
@@ -106,13 +83,13 @@ void go_chercher_les_murs(t_game *game)
 		{
 			game->ray.sidex += game->ray.deltax;
 			game->ray.mapx += game->ray.stepx;
-			game->ray.side = 0;
+			game->ray.side = 0; // + (game->ray.dix < 0);
 		}
 		else
 		{
 			game->ray.sidey += game->ray.deltay;
 			game->ray.mapy += game->ray.stepy;
-			game->ray.side = 1;
+			game->ray.side = 1; // + (game->ray.diy > 0);
 		}
 		
 		if (game->map.map[game->ray.mapy][game->ray.mapx] == '1')
@@ -123,7 +100,7 @@ void go_chercher_les_murs(t_game *game)
 		// est ce que on a hit un mur ou pas
 		// si c ok on passe au calcul de la distance du rayon jusko mur
 	}
-	go_chercher_la_distance_du_rayon_mec(game, &game->player);
+	//go_chercher_la_distance_du_rayon_mec(game, &game->player);
 }
 
 void verification_ray(t_game *game, t_player *player)
@@ -150,13 +127,12 @@ void verification_ray(t_game *game, t_player *player)
 		game->ray.stepy = 1;
 		game->ray.sidey = (game->ray.mapy + 1.0 - player->posy) * game->ray.deltay;
 	}
-	go_chercher_les_murs(game);
+	//go_chercher_les_murs(game);
 }
 
 
 int init_ray(t_game *game, t_player *player, int col)
 {
-	//tuto
 	game->ray.mapx = (int)player->posx; // ds quelle case de la map suis je
 	game->ray.mapy = (int)player->posy;
 	game->ray.dist = 0;
@@ -164,20 +140,8 @@ int init_ray(t_game *game, t_player *player, int col)
 	// on calcule la taille du ray du point de depart x ou y jusquau prochain croisement de x ou y
 	game->ray.dirx = player->dirx + player->planex * (double)game->ray.camerax;
 	game->ray.diry = player->diry + player->planey * (double)game->ray.camerax;
-	// if (game->ray.diry == 0)
-	// 	game->ray.deltax = 0;
-	// else if (game->ray.dirx == 0)
-	// 	game->ray.deltax = 1;
-	// else 
-		game->ray.deltax = sqrt(1 + (game->ray.diry * game->ray.diry) 
-		/ (game->ray.dirx * game->ray.dirx));
-	// if (game->ray.dirx == 0)
-	// 	game->ray.deltay = 0;
-	// else if (game->ray.diry == 0)
-	// 	game->ray.deltay = 1;
-	// else
-		game->ray.deltay = sqrt(1 + (game->ray.dirx * game->ray.dirx)
-			/ (game->ray.diry * game->ray.diry));
+	game->ray.deltax = fabs(1 / game->ray.dirx);
+	game->ray.deltay = fabs(1 / game->ray.diry);
 	return (0);
 }
 
@@ -194,42 +158,12 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 // 	*(unsigned int *)dst = color;
 // }
 
-// void	draw_px_col(t_game *game, t_ray *ray, int cpt)
-// {
-// 	int	px;
-// 	//unsigned int color;
-
-// 	if (ray->FirstPixel > 0)
-// 	{
-// 		px = -1;
-// 		while (++px < ray->FirstPixel)
-// 		{
-// 			my_mlx_pixel_put(game->img, cpt, px, 0x17657D); // bleu
-// 			printf("ui\n");
-// 		}
-// 	}
-// 	px = ray->FirstPixel - 1;
-// 	while (++px < ray->PixelLast)
-// 	{
-// 		//color = plafond_shade(game->setup.ceiling.red, px);
-// 		my_mlx_pixel_put(game->img, cpt, px, 0xC8AD7F); // marron
-// 					printf("feefei\n");
-// 	}
-// 	while (px < HEIGHT)
-// 	{
-// 		my_mlx_pixel_put(game->img, cpt, px,  0xFFFF00); //jaune
-// 					printf("ufefef\n");
-// 		px++;
-// 	}
-// }
-
 
 int	rgb2int(int r, int g, int b)
 {
 	return ((r << 16) | (g << 8) | b);
 }
 
-// void	draw_px_col(t_game *game, t_ray *ray, int cpt)
 
 void	draw_sky_floor_colors(t_game *game)
 {
@@ -254,25 +188,6 @@ void	draw_sky_floor_colors(t_game *game)
 	}
 }
 
-// int texture_colonne(t_game *game, int col)
-// {
-// //le but cest de mettre les textures a la meme taille que les murs
-// 	int i;
-// 	int j;
-
-// 	j = -1;
-// 	col = 0;
-// 	game->ray.PixelLast = HEIGHT - game->ray.FirstPixel;
-// 	i = game->ray.PixelLast;
-// 	while(++j < game->ray.FirstPixel)
-// 		game->img->addr[j * game->img->line_length / 4 + col] = game->plafond;
-// 	 if (j <= game->ray.PixelLast)
-// 	 	draw_shit(game, col, j);
-// 	j = i;
-// 	while ( ++j < HEIGHT)
-// 		game->img->addr[j * game->img->line_length / 4 + col] = game->sol;
-// 	 return (0);
-// }
 void testing(t_game *game, int x)
 {
 	int i;
@@ -329,31 +244,12 @@ int raycasting(t_game *game)
 	// {
 		init_ray(game, &game->player, col);
 		verification_ray(game, &game->player);
+		go_chercher_les_murs(game);
+		go_chercher_la_distance_du_rayon_mec(game, &game->player);
+		testing(game, col);
 		// draw_px_col(game);//, &game->ray), col);	
 	//}
-	
-	// its about to go down
-	// if (game->ray.side == 0 && game->ray.dirx > 0)
-	// {
-	// 	printf("1");
-	// 		texture_colonne(game, &game->ray, col, 'E');
-	// }
-	// else if (game->ray.side == 0 && game->ray.dirx <= 0)
-	// {
-	// 	printf("2");
-	// 	texture_colonne(game, &game->ray, col, 'W');
-	// }
-	// else if (game->ray.side == 1 && game->ray.dirx > 0)
-	// {
-	// 	printf("3");
-	// 	texture_colonne(game, &game->ray, col, 'S');
-	// }
-	// else if (game->ray.side == 1 && game->ray.dirx <= 0)
-	// {
-	// 	printf("4");
-	// 	texture_colonne(game, &game->ray, col, 'N');
-	//}
-	
+
 	return(0);
 
 }

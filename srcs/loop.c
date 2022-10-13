@@ -12,34 +12,6 @@
 
 #include "cub.h"
 
-
-// void texture_colonne(t_game *game, t_ray *ray, int col, char direction)
-// {
-// 	int pixel;
-// 	unsigned int color;
-// 	t_img *img;
-
-// 	if (direction == 'N')
-// 		img = &game->texture[0];
-// 	else if (direction == 'S')
-// 		img = &game->texture[1];
-// 	else if (direction == 'E')
-// 		img = &game->texture[2];
-// 	else
-// 		img = &game->texture[3];
-// 	if (ray->FirstPixel > 0)
-// 	{
-// 		pixel = -1;
-// 		while (++pixel < ray->FirstPixel)
-// 		{
-// 			color = plafond_shade(game->plafond, pixel);
-// 			my_mlx_pixel_put(game->img, col, pixel, color);
-// 		}
-// 	}
-// 	//sol_texture(game, ray, col, img);
-// }
-
-
 void	init_texture(t_game *game)
 {
 	if (game->ray.side == 0 && game->ray.dirx < 0)
@@ -94,12 +66,12 @@ int loop(t_game *game)
 	game->img->addr = (int *)mlx_get_data_addr(game->img->img, &game->img->bits_per_pixel,
 			&game->img->line_length, &game->img->endian);
 
-	draw_sky_floor_colors(game);//, &game->ray), col);		
+	draw_sky_floor_colors(game);		
 	while (++x < WIDTH)
 		raycasting(game);
 	//affichertext(game, x);
-	testing(game, x);	
-
+	// il faut creer la fonctiomn qui fait les sprite sur lecran
+	//
 	
 	mlx_put_image_to_window(game->window.mlx, game->window.mlx_win, game->img->img, 0, 0);
 	mlx_destroy_image(game->window.mlx, game->img->img);
