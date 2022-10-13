@@ -229,7 +229,7 @@ void	get_texture(t_game *game);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
 void draw_shit(t_game *game, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	draw_px_col(t_game *game);
+void	draw_sky_floor_colors(t_game *game);
 void affichertext(t_game *game, double ty);
 void testing(t_game *game, int x);
 

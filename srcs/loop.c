@@ -94,7 +94,7 @@ int loop(t_game *game)
 	game->img->addr = (int *)mlx_get_data_addr(game->img->img, &game->img->bits_per_pixel,
 			&game->img->line_length, &game->img->endian);
 
-	draw_px_col(game);//, &game->ray), col);		
+	draw_sky_floor_colors(game);//, &game->ray), col);		
 	while (++x < WIDTH)
 		raycasting(game);
 	//affichertext(game, x);

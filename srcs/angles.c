@@ -231,7 +231,7 @@ int	rgb2int(int r, int g, int b)
 
 // void	draw_px_col(t_game *game, t_ray *ray, int cpt)
 
-void	draw_px_col(t_game *game)
+void	draw_sky_floor_colors(t_game *game)
 {
 	int	x;
 	int	y;
