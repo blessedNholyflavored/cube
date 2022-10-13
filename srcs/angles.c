@@ -117,7 +117,7 @@ void go_chercher_les_murs(t_game *game)
 		
 		if (game->map.map[game->ray.mapy][game->ray.mapx] == '1')
 		{
-			printf("oui");
+			//printf("oui");
 			mur = 1;
 		}
 		// est ce que on a hit un mur ou pas
@@ -181,18 +181,18 @@ int init_ray(t_game *game, t_player *player, int col)
 	return (0);
 }
 
-// void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-// {
-// 	img->addr[WIDTH * y + x] = color;
-// }
-
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
-	char	*dst;
+	img->addr[WIDTH * y + x] = color;
+}
 
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dst = color;
-	}
+// void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+// {
+// 	char	*dst;
+
+// 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+// 	*(unsigned int *)dst = color;
+// }
 
 // void	draw_px_col(t_game *game, t_ray *ray, int cpt)
 // {
@@ -273,6 +273,52 @@ void	draw_px_col(t_game *game)
 // 		game->img->addr[j * game->img->line_length / 4 + col] = game->sol;
 // 	 return (0);
 // }
+void testing(t_game *game, int x)
+{
+	int i;
+	int color;
+
+	i = game->ray.FirstPixel;
+	game->text.step = 1.0 * game->texture[game->ray.side].height /  game->ray.line_height;
+	game->text.texpos = (game->ray.FirstPixel - HEIGHT / 2 + game->ray.line_height / 2) * game->text.step;
+	while (i < game->ray.PixelLast)
+	{
+		game->text.texy = (int)game->text.texpos &(game->texture[game->text.texdir].height - 1);
+ 		game->text.texpos += game->text.step;
+		if (game->ray.side % 2)
+		color = (color >> 1) & AND_ING;
+		my_mlx_pixel_put(game->img, x, i, color);
+		i++;
+	}
+}
+
+// void affichertext(t_game *game, double ty)
+// {
+// 	int x;
+// 	int y;
+// 	int textureX;
+// 	int textureY;
+// 	int d;
+
+// 	x = game->ray.FirstPixel - 1;
+// 	while (++x < game->ray.PixelLast)
+// 	{
+// 		textureX = (int)(BYTE * (x - (-game->ray.line_height / 2 + HEIGHT))
+// 					* WIDTH / game->ray.line_height) / BYTE; //////////////////
+// 		if (ty >= 0 && x >= 0 && x <= WIDTH)
+// 		{
+// 			y = game->ray.FirstPixel - 1;
+// 			while(++y < game->ray.PixelLast)
+// 			{
+// 				d = y * BYTE - HEIGHT * (BYTE / 2) + game->img->height * (BYTE / 2);
+// 				textureY = abs(((d * HEIGHT) / game->img->height) / BYTE);
+// 				game->img->color = game->img->addr[WIDTH * textureX + textureY];
+// 				if ((game->img->color & 0x00FFFFFF) != 0)
+// 				my_mlx_pixel_put(game->img, x, y, game->img->color);
+// 			}
+// 		}
+// 	}
+// }
 
 int raycasting(t_game *game)
 {
@@ -283,7 +329,7 @@ int raycasting(t_game *game)
 	// {
 		init_ray(game, &game->player, col);
 		verification_ray(game, &game->player);
-		draw_px_col(game);//, &game->ray), col);		
+		// draw_px_col(game);//, &game->ray), col);	
 	//}
 	
 	// its about to go down

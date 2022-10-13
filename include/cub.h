@@ -24,6 +24,8 @@
 
 #define WIDTH 1280 // pas trop grand pck faut pas deconner
 #define HEIGHT 720
+# define AND_ING			8355711
+# define BYTE				256
 
 typedef enum e_last
 {
@@ -99,13 +101,14 @@ typedef struct s_player
 typedef struct s_img
 {
 	void	*img;
-	void		*addr;
+	int	*addr;
 	int		bpp;
 	int		line_length;
 	int		endian;
 	int		width;
 	int		height;
 	int		bits_per_pixel;
+	int color;
 }			t_img;
 
 // typedef struct s_assets
@@ -171,7 +174,7 @@ typedef struct s_game
 	t_window	window;
 	unsigned int	plafond;
 	unsigned int	sol;
-	double			*zbuffer;
+	//double			*zbuffer;
 
 	t_ray		ray;
 }			t_game;
@@ -226,5 +229,8 @@ void	get_texture(t_game *game);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
 void draw_shit(t_game *game, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	draw_px_col(t_game *game);
+void affichertext(t_game *game, double ty);
+void testing(t_game *game, int x);
 
 #endif

@@ -87,13 +87,19 @@ void	init_texture(t_game *game)
 
 int loop(t_game *game)
 {
+	int x = -1;
 	set_text(game);//proteger fonction
 	init_struct_ray(game);
 	game->img->img = mlx_new_image(game->window.mlx, WIDTH, HEIGHT);
-	game->img->addr = mlx_get_data_addr(game->img->img, &game->img->bits_per_pixel,
+	game->img->addr = (int *)mlx_get_data_addr(game->img->img, &game->img->bits_per_pixel,
 			&game->img->line_length, &game->img->endian);
-	raycasting(game);
-	
+
+	draw_px_col(game);//, &game->ray), col);		
+	while (++x < WIDTH)
+		raycasting(game);
+	//affichertext(game, x);
+	testing(game, x);	
+
 	
 	mlx_put_image_to_window(game->window.mlx, game->window.mlx_win, game->img->img, 0, 0);
 	mlx_destroy_image(game->window.mlx, game->img->img);
