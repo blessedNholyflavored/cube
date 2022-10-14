@@ -323,27 +323,97 @@ void	draw_sky_floor_colors(t_game *game)
 // 	}
 // }
 
+t_img *get_enum(t_game *game)
+{
+	// if (game->ray.sidewall == NORTH)
+	// 	return (game->texture[0].addr);
+	// else if (game->ray.sidewall == EAST)
+	// 	return (game->texture[0].addr);
+	// else if (game->ray.sidewall == WEST)
+	// 	return (game->texture[0].addr);
+	// else if (game->ray.sidewall == SOUTH)
+	// 	return (game->texture[0].addr);
+	
+	// if (dir == 'N')
+	// 	img = &game->texture[0];
+	// else if (dir == 'S')
+	// 	img = &game->texture[1];
+	// else if (dir == 'E')
+	// 	img = &game->texture[2];
+	// else
+	// 	img = &game->texture[3];
+	
 
-void texture_colonne(t_game *game, t_ray *ray, int col, char dir)
+	// if (dir == 'N')
+	// 	img = &game->texture[0];
+	// else if (dir == 'S')
+	// 	img = &game->texture[1];
+	// else if (dir == 'E')
+	// 	img = &game->texture[2];
+	// else
+	// 	img = &game->texture[3];
+	t_img *img = 0;
+
+	if (game->ray.side == 0 && game->ray.dirx > 0)
+	{
+		img = &game->texture[2];
+		game->ray.sidewall = EAST;
+	}
+	else if (game->ray.side == 0 && game->ray.dirx <= 0)
+	{
+		img = &game->texture[3];
+		game->ray.sidewall = WEST;
+	}
+	else if (game->ray.side == 1 && game->ray.diry > 0)
+	{
+		img = &game->texture[1];
+		game->ray.sidewall = SOUTH;
+	}
+	else if (game->ray.side == 1 && game->ray.diry <= 0)
+	{
+		img = &game->texture[0];
+		game->ray.sidewall = NORTH;
+	}
+	return (img);
+}
+
+
+void    wall_pixel_put(t_game *game, int x, int y)
+{
+    int        px;
+    int        px2;
+    int        x2;
+    int        y2;
+    t_img    *print_wall;
+
+    print_wall = get_enum(game);
+    px = game->img->line_length * y + x * game->img->bits_per_pixel / 8;
+    y = y - (HEIGHT / 2 - game->ray.line_height / 2);
+    x2 = (int)(game->ray.wallx * (double)print_wall->width);
+    if (game->ray.sidewall == WEST || game->ray.sidewall == NORTH)
+        x2 = print_wall->width - x2 - 1;
+    y2 = (int)((double)y * (double)print_wall->height / game->ray.line_height);
+    px2 = print_wall->line_length * y2 + x2 * print_wall->bits_per_pixel / 8;
+    game->img->addr[px + 2] = (char)print_wall->addr[px2 + 2];
+    game->img->addr[px + 1] = (char)print_wall->addr[px2 + 1];
+    game->img->addr[px] = (char)print_wall->addr[px2];
+}
+
+
+
+void texture_colonne(t_game *game, t_ray *ray, int col) //, char dir)
 {
 	int				px;
-	unsigned int	color = 0;
-	t_img			*img;
+	//unsigned int	color = 0;
+	//t_img			*img;
 
-	if (dir == 'N')
-		img = &game->texture[0];
-	else if (dir == 'S')
-		img = &game->texture[1];
-	else if (dir == 'E')
-		img = &game->texture[2];
-	else
-		img = &game->texture[3];
+
 	if (ray->FirstPixel > 0)
 	{
-		px = -1;
-		while (++px < ray->FirstPixel)
+		px = -(game->ray.line_height) / 2 + HEIGHT / 2;
+		while (px < ray->PixelLast)
 		{
-			my_mlx_pixel_put(img, col, px, color);
+			wall_pixel_put(game, col, px++);
 		}
 	}
 }
@@ -389,16 +459,16 @@ int raycasting(t_game *game)
 		verification_ray(game, &game->player);
 		go_chercher_les_murs(game);
 		go_chercher_la_distance_du_rayon_mec(game, &game->player);
-		if (game->ray.side == 0 && game->ray.dirx > 0)
-			texture_colonne(game, &game->ray, col, 'E');
-		else if (game->ray.side == 0 && game->ray.dirx <= 0)
-			texture_colonne(game, &game->ray, col, 'W');
-		else if (game->ray.side == 1 && game->ray.diry > 0)
-			texture_colonne(game, &game->ray, col, 'S');
-		else if (game->ray.side == 1 && game->ray.diry <= 0)
-			texture_colonne(game, &game->ray, col, 'N');
+		// if (game->ray.side == 0 && game->ray.dirx > 0)
+		// 	texture_colonne(game, &game->ray, col, 'E');
+		// else if (game->ray.side == 0 && game->ray.dirx <= 0)
+		// 	texture_colonne(game, &game->ray, col, 'W');
+		// else if (game->ray.side == 1 && game->ray.diry > 0)
+		// 	texture_colonne(game, &game->ray, col, 'S');
+		// else if (game->ray.side == 1 && game->ray.diry <= 0)
+		// 	texture_colonne(game, &game->ray, col, 'N');
 	
-		//texture_colonne(game, &game->ray, col);
+		texture_colonne(game, &game->ray, col);
 		//testing(game, col);
 		// draw_px_col(game);//, &game->ray), col);
 		//affichertext(game, col);

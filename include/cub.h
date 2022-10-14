@@ -227,7 +227,7 @@ int raycasting(t_game *game);
 int loop(t_game *game);
 // int texture_colonne(t_game *game, int col);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
-void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
+void texture_colonne(t_game *game, t_ray *ray, int col); //, char dir);
 void init_struct_ray(t_game *game);
 void	get_texture(t_game *game);
 //void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
