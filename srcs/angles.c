@@ -74,32 +74,66 @@ void init_struct_ray(t_game *game)
 	game->ray.PixelLast = 0;
 	game->ray.FirstPixel = 0;
 	game->ray.sidex = 0;
+	game->ray.x = 0;
+	game->ray.y = 0;
+	game->ray.sidewall = 0;
 	game->ray.sidey = 0;
 	init_dir(game);
 	//game->zbuffer = (double *)malloc(sizeof(double) * WIDTH);
 	//	exit(0);
 }
+
+
+// si raydiry < 0 -->>> EAST
+// sinon cest WEST
+// et si raydirx < 0 ---> NORTH
+// sinon cest south 
+
+
+
+
 int go_chercher_la_distance_du_rayon_mec(t_game *game, t_player *player)
 {
+	int perpalldist = 0;
+
 	if (game->ray.side == 1)
 	{
 		//on calcule la distance entre la camera
 		game->ray.dist = (game->ray.mapy - player->posy + (1 - game->ray.stepy) / 2) / game->ray.diry;
-		game->ray.wallx = player->posx + game->ray.dist * game->ray.dirx;
+		perpalldist = (game->ray.sidey - game->ray.deltay);
+		// if (game->ray.diry < 0)
+		// 	game->ray.sidewall = EAST;
+		// else 
+		// 	game->ray.sidewall = WEST;// ici
 	}
 	else
 	{
-		game->ray.dist = (game->ray.mapx - player->posx + (1 - game->ray.stepx) / 2) / game->ray.dirx;
-		game->ray.wallx = player->posy + game->ray.dist * game->ray.diry;
+		game->ray.dist = (game->ray.mapx - player->posx + (1 - game->ray.stepx) / 2) / game->ray.dirx;	
+		perpalldist = (game->ray.sidex - game->ray.deltax);
+		// if (game->ray.dirx < 0)
+		// 	game->ray.sidewall = NORTH;
+		// else 
+		// 	game->ray.sidewall = SOUTH;// ici// ici 
 	}
-	game->ray.line_height = (int)(HEIGHT / game->ray.dist); // on calcule la taille de la ligne quon  doit dessiner sur lecran
-	game->ray.FirstPixel = -game->ray.line_height / 2 + HEIGHT / 2; // on calcule la pixel la plus basse et plus haute ds la bande
+	//get_enum(game);
+	game->ray.line_height = (int)(HEIGHT / perpalldist); // on calcule la taille de la ligne quon  doit dessiner sur lecran
+	game->ray.FirstPixel = -game->ray.line_height / 2 + (HEIGHT / 2); // on calcule la pixel la plus basse et plus haute ds la bande
 	if (game->ray.FirstPixel < 0)
 		game->ray.FirstPixel = 0;
-	game->ray.PixelLast = game->ray.line_height / 2 + HEIGHT / 2;
+	game->ray.PixelLast = game->ray.line_height / 2 + (HEIGHT / 2);
 	if (game->ray.PixelLast >= HEIGHT)
 		game->ray.PixelLast = HEIGHT - 1;
-	
+	if (game->ray.PixelLast < 0)
+		game->ray.PixelLast = 0;
+	if (game->ray.side <= 1)
+		game->ray.wallx = player->posy + perpalldist * game->ray.diry; 
+	else
+		game->ray.wallx = player->posx + perpalldist * game->ray.dirx;
+	game->ray.x = (int)(game->ray.wallx * (double)(game->texture[game->ray.side].width));
+	if ((game->ray.side <= 1 && game->ray.dirx > 0) || (game->ray.side >= 2 && game->ray.diry > 0))
+		game->ray.x = game->texture[game->ray.side].width - game->ray.x - 1;
+
+
 	// la valeur de HEIGHT fait que les murs sont des cubes de taille identik
 	return (0);
 }
@@ -214,8 +248,8 @@ void	draw_sky_floor_colors(t_game *game)
 	int	sky_color;
 	int	floor_color;
 
-	sky_color = rgb2int(187, 67, 41);//, c->col.rgb_s[1], c->col.rgb_s[2]);
-	floor_color = rgb2int(24, 30,218);//c->col.rgb_f[0], c->col.rgb_f[1], c->col.rgb_f[2]);
+	sky_color = rgb2int(187, 67, 41);
+	floor_color = rgb2int(24, 30,218);
 	y = -1;
 	while (++y < WIDTH)
 	{
@@ -230,25 +264,89 @@ void	draw_sky_floor_colors(t_game *game)
 	}
 }
 
-void testing(t_game *game, int x)
-{
-	int i;
-	int color;
 
-	i = game->ray.FirstPixel;
-	game->text.step = 1.0 * game->texture[game->ray.side].height /  game->ray.line_height;
-	game->text.texpos = (game->ray.FirstPixel - HEIGHT / 2 + game->ray.line_height / 2) * game->text.step;
-	while (i < game->ray.PixelLast)
+// int get_enum(t_game *game)
+// {
+// 	if (game->ray.sidewall == NORTH)
+// 		return (game->text.texdir);
+// 	else if (game->ray.sidewall == EAST)
+// 		return (game->text.texdir);
+// 	else if (game->ray.sidewall == WEST)
+// 		return (game->text.texdir);
+// 	else if (game->ray.sidewall == SOUTH)
+// 		return (game->text.texdir);
+// 	return (0);
+// }
+
+// void texture_colonne(t_game *game, t_ray *ray, int col)
+// {
+// 	int				px;
+// 	unsigned int	color = 0;
+// 	t_img			*img;
+// 	px = 0;
+
+// 	if (game->ray.sidewall == NORTH)
+// 		img = &game->texture[0];
+// 	else if (game->ray.sidewall == SOUTH)
+// 		img = &game->texture[1];
+// 	else if (game->ray.sidewall == EAST)
+// 		img = &game->texture[2];
+// 	else
+// 		img = &game->texture[3];
+// 	if (ray->FirstPixel > 0)
+// 	{
+// 		px = -1;
+// 		while (++px < ray->FirstPixel)
+// 		{
+// 			my_mlx_pixel_put(game->img, col, px, color);
+// 		}
+// 	}
+// }
+
+// void testing(t_game *game, int x)
+// {
+// 	int i;
+// 	int color;
+
+// 	i = game->ray.FirstPixel;
+// 	game->text.step = 1.0 * game->texture[game->ray.side].height /  game->ray.line_height;
+// 	game->text.texpos = (game->ray.FirstPixel - HEIGHT / 2 + game->ray.line_height / 2) * game->text.step;
+// 	while (i < game->ray.PixelLast)
+// 	{
+// 		game->ray.y = (int)game->text.texpos &(game->texture[game->ray.side].height - 1);
+//  		game->text.texpos += game->text.step;
+// 		color = game->texture[game->ray.side].addr[game->texture[game->ray.side].width * game->ray.y + game->ray.x];
+// 		if (game->ray.side % 2)
+// 			color = (color >> 1) & AND_ING;
+// 		my_mlx_pixel_put(game->img, x, i, color);
+// 		i++;
+// 	}
+// }
+
+
+void texture_colonne(t_game *game, t_ray *ray, int col, char dir)
+{
+	int				px;
+	unsigned int	color = 0;
+	t_img			*img;
+
+	if (dir == 'N')
+		img = &game->texture[0];
+	else if (dir == 'S')
+		img = &game->texture[1];
+	else if (dir == 'E')
+		img = &game->texture[2];
+	else
+		img = &game->texture[3];
+	if (ray->FirstPixel > 0)
 	{
-		game->text.texy = (int)game->text.texpos &(game->texture[game->text.texdir].height - 1);
- 		game->text.texpos += game->text.step;
-		if (game->ray.side % 2)
-		color = (color >> 1) & AND_ING;
-		my_mlx_pixel_put(game->img, x, i, color);
-		i++;
+		px = -1;
+		while (++px < ray->FirstPixel)
+		{
+			my_mlx_pixel_put(img, col, px, color);
+		}
 	}
 }
-
 // void affichertext(t_game *game, double ty)
 // {
 // 	int x;
@@ -277,6 +375,9 @@ void testing(t_game *game, int x)
 // 	}
 // }
 
+
+
+
 int raycasting(t_game *game)
 {
 	int col;
@@ -288,8 +389,19 @@ int raycasting(t_game *game)
 		verification_ray(game, &game->player);
 		go_chercher_les_murs(game);
 		go_chercher_la_distance_du_rayon_mec(game, &game->player);
-		testing(game, col);
-		// draw_px_col(game);//, &game->ray), col);	
+		if (game->ray.side == 0 && game->ray.dirx > 0)
+			texture_colonne(game, &game->ray, col, 'E');
+		else if (game->ray.side == 0 && game->ray.dirx <= 0)
+			texture_colonne(game, &game->ray, col, 'W');
+		else if (game->ray.side == 1 && game->ray.diry > 0)
+			texture_colonne(game, &game->ray, col, 'S');
+		else if (game->ray.side == 1 && game->ray.diry <= 0)
+			texture_colonne(game, &game->ray, col, 'N');
+	
+		//texture_colonne(game, &game->ray, col);
+		//testing(game, col);
+		// draw_px_col(game);//, &game->ray), col);
+		//affichertext(game, col);
 	//}
 
 	return(0);
