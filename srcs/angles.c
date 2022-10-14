@@ -288,7 +288,7 @@ int raycasting(t_game *game)
 		verification_ray(game, &game->player);
 		go_chercher_les_murs(game);
 		go_chercher_la_distance_du_rayon_mec(game, &game->player);
-//		testing(game, col);
+		testing(game, col);
 		// draw_px_col(game);//, &game->ray), col);	
 	//}
 
