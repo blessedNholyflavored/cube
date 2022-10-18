@@ -101,23 +101,22 @@ typedef struct s_player
 typedef struct s_img
 {
 	void	*img;
-	int	*addr;
+	char	*addr;
 	int		bpp;
 	int		line_length;
 	int		endian;
 	int		width;
 	int		height;
 	int		bits_per_pixel;
-	int color;
 }			t_img;
 
-// typedef struct s_assets
-// {
-// 	t_img	we;
-// 	t_img	so;
-// 	t_img	no;
-// 	t_img	ea;
-// }			t_assets;
+typedef struct s_assets
+{
+	t_img	we;
+	t_img	so;
+	t_img	no;
+	t_img	ea;
+}			t_assets;
 
 typedef struct s_window
 {
@@ -127,38 +126,27 @@ typedef struct s_window
 
 typedef struct s_ray
 {
-	int mapx;
-	int mapy;
-	int stepx;
-	int line_height;
-	int	side;
-	int stepy;
-	int		FirstPixel;
-	int		PixelLast;
-	double dist;
-	double wallx;
-	double camerax;
+		double camerax;
 	double dirx;
 	double diry;
-	double sidex;
-	int sidewall;
+	int mapx;
+	int mapy;
 	double sidey;
-	int		x;
-	int y;
+	double sidex;
 	double deltax;
 	double deltay;
-	int		texture;
+	double perpalldist;
+	int stepx;
+	int stepy;
+	int	side;
+	double wallx;
+	int sidewall;
+	int line_height;
+	int		FirstPixel;
+	int		PixelLast;
+	int		x;
 } t_ray;
 
-typedef struct s_texture
-{
-	int texdir;
-	double wallx;
-	int				texx;
-	int				texy;
-	double			step;
-	double			texpos;
-} t_texture;
 
 typedef struct s_game
 {
@@ -170,15 +158,9 @@ typedef struct s_game
 	t_setup		setup;
 	t_check		check;
 	t_map		map;
-	t_img			*img;
-	//t_assets	assets;
-	t_texture	text;
-	t_img		texture[5]; // plus tard
+	t_img		img;
+	t_assets	assets;
 	t_window	window;
-	unsigned int	plafond;
-	unsigned int	sol;
-	//double			*zbuffer;
-
 	t_ray		ray;
 }			t_game;
 
@@ -218,19 +200,17 @@ void	copy_map(t_game *game, char **file, int i, int x);
 int		set_map(t_game *game, char **file, int y);
 int		init_map(t_game *game, int y);
 int		final_check(t_game *game);
-void     set_text(t_game *game);
 int     init_window(t_game *game);
-///
+void	init_dir(t_game *game);
 void 	angles_de_ses_morts(t_game *game);
 void exec(t_game *game);
 int raycasting(t_game *game);
 int loop(t_game *game);
-// int texture_colonne(t_game *game, int col);
-//void texture_colonne(t_game *game, t_ray *ray, int col, char direction);
-void texture_colonne(t_game *game, t_ray *ray, int col); //, char dir);
+int	ft_get_texture_adress(t_game *game);
+int     set_text(t_game *game);
+void texture_colonne(t_game *game);
 void init_struct_ray(t_game *game);
 void	get_texture(t_game *game);
-//void texture_colonne(t_game *game, t_ray *ray, int col, char dir);
 void draw_shit(t_game *game, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	draw_sky_floor_colors(t_game *game);

@@ -40,107 +40,142 @@ int ft_keys(t_game *game)
 	return (0);
 }
 
+void init_struct_ray(t_game *game)
+{
+	game->ray.deltax = 0;
+	game->ray.deltay = 0;
+	game->ray.side = 0;
+	game->ray.PixelLast = 0;
+	game->ray.FirstPixel = 0;
+	game->ray.sidex = 0;
+	game->ray.x = 0;
+	game->ray.sidewall = 0;
+	game->ray.sidey = 0;
+	game->ray.perpalldist = 0;
+}
+
+void	init_struct_image(t_game *game)
+{
+	game->assets.we.img = NULL;
+	game->assets.we.addr = NULL;
+	game->assets.no.img = NULL;
+	game->assets.no.addr = NULL;	
+	game->assets.ea.img = NULL;
+	game->assets.ea.addr = NULL;
+	game->assets.so.img = NULL;
+	game->assets.so.addr = NULL;
+	game->img.addr = NULL;
+	game->img.img = NULL;
+}
+
+void	init_dir(t_game *game)
+{
+	if (game->player.dir == NORTH)
+	{
+		game->player.dirx = 0;
+		game->player.diry = -1;
+		game->player.planex = 0.66;
+		game->player.planey = 0;
+	}
+	else if (game->player.dir == SOUTH)
+	{
+		game->player.dirx = 0;
+		game->player.diry = 1;
+		game->player.planex = -0.66;
+		game->player.planey = 0;
+	}
+	else if(game->player.dir == EAST)
+	{
+		game->player.dirx = 1;
+		game->player.diry = 0;
+		game->player.planex = 0;
+		game->player.planey = 0.66;
+	}
+	else
+	{
+		game->player.dirx = -1;
+		game->player.diry = 0;
+		game->player.planex = 0;
+		game->player.planey = -0.66;
+	}
+}
+
+
+int	ft_get_texture_adress(t_game *game)
+{
+	game->assets.we.addr = mlx_get_data_addr(game->assets.we.img,
+		&game->assets.we.bits_per_pixel,
+		&game->assets.we.line_length, &game->assets.we.endian);
+	if (!game->assets.we.addr)
+		return (1);
+	game->assets.so.addr = mlx_get_data_addr(game->assets.so.img,
+		&game->assets.so.bits_per_pixel,
+		&game->assets.so.line_length, &game->assets.so.endian);
+	if (!game->assets.so.addr)
+		return (1);
+	game->assets.no.addr = mlx_get_data_addr(game->assets.no.img,
+		&game->assets.no.bits_per_pixel,
+		&game->assets.no.line_length, &game->assets.no.endian);
+	if (!game->assets.no.addr)
+		return (1);
+	game->assets.ea.addr = mlx_get_data_addr(game->assets.ea.img,
+		&game->assets.ea.bits_per_pixel,
+		&game->assets.ea.line_length, &game->assets.ea.endian);
+	if (!game->assets.no.addr)
+		return (1);
+	game->img.addr = mlx_get_data_addr(game->img.img,
+		&game->img.bits_per_pixel, &game->img.line_length,
+		&game->img.endian);
+	if(!game->img.addr)
+		return(1);
+	return (0);
+}
+
+int     set_text(t_game *game)
+{
+	game->assets.we.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_we,
+		&game->assets.we.width, &game->assets.we.height);
+	if (game->assets.we.img == NULL)
+		return (1);
+	game->assets.so.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_so,
+		&game->assets.so.width, &game->assets.so.height);
+	if (game->assets.so.img == NULL)
+		return (1);
+	game->assets.no.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_no,
+		&game->assets.no.width, &game->assets.no.height);
+	if (game->assets.no.img == NULL)
+		return (1);
+	game->assets.ea.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_ea,
+		&game->assets.ea.width, &game->assets.ea.height);
+	if (game->assets.ea.img == NULL)
+		return (1);
+	game->img.img = mlx_new_image(game->window.mlx, WIDTH, HEIGHT);
+	if (game->img.img == NULL)
+		return(1);
+	return (0);
+}
+
+
 int     init_window(t_game *game)
 {
-		
+		init_struct_image(game);
+		init_dir(game);
+		//init_struct_ray(game);
         game->window.mlx = mlx_init();
         if (game->window.mlx == NULL)
 			return (1);
         game->window.mlx_win = mlx_new_window(game->window.mlx, WIDTH, HEIGHT, "Cub3D");
         if (!game->window.mlx_win)
-            return(1);
-		game->img = malloc(sizeof(t_img));
-		if (!game->img) // free game;
+            return(2);
+		if (set_text(game) || ft_get_texture_adress(game))
+		{
+			printf("error\nTexture didn't load\n");
 			return (1);
- 		loop(game);
+		}
+		if (raycasting(game))
+			return (1);
 		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
 		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
-		//mlx_loop(game->window.mlx);
-		//mlx_loop_hook(game->window.mlx, loop, game);
 		mlx_loop(game->window.mlx);
         return (0);
-}
-
-void	ft_get_texture_adress(t_game *game)
-{
-	game->texture[0].addr = (int *)mlx_get_data_addr(game->texture[0].img,
-			&game->texture[0].bits_per_pixel,
-			&game->texture[0].line_length, &game->texture[0].endian);
-	game->texture[1].addr = (int *)mlx_get_data_addr(game->texture[1].img,
-			&game->texture[1].bits_per_pixel,
-			&game->texture[1].line_length, &game->texture[1].endian);
-	game->texture[2].addr = (int *)mlx_get_data_addr(game->texture[2].img,
-			&game->texture[2].bits_per_pixel,
-			&game->texture[2].line_length, &game->texture[2].endian);
-	game->texture[3].addr = (int *)mlx_get_data_addr(game->texture[3].img,
-			&game->texture[3].bits_per_pixel,
-			&game->texture[3].line_length, &game->texture[3].endian);
-	// game->texture[4].addr = (int *)mlx_get_data_addr(game->texture[4].img,
-	// 		&game->texture[4].bits_per_pixel,
-	// 		&game->texture[4].line_length, &game->texture[4].endian);
-}
-
-// int     set_text(t_game *game)
-// {
-// 	game->assets.we.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_we,
-// 		&game->assets.we.width, &game->assets.we.height);
-// 	if (game->assets.we.img == NULL)
-//                 return (1);
-//         game->assets.so.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_so,
-// 		&game->assets.so.width, &game->assets.so.height);
-// 	if (game->assets.so.img == NULL)
-//                 return (1);
-//         game->assets.no.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_no,
-// 		&game->assets.no.width, &game->assets.no.height);
-// 	if (game->assets.no.img == NULL)
-//                 return (1);
-//         game->assets.ea.img = mlx_xpm_file_to_image(game->window.mlx, game->setup.path_ea,
-// 		&game->assets.ea.width, &game->assets.ea.height);
-//         if (game->assets.ea.img == NULL)
-//                 return (1);
-// 		ft_get_texture_adress(game);
-//         return (0);
-// }
-
-
-void	set_text(t_game *game)
-{
-	if (!(game->texture[0].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->setup.path_no, &(game->texture[0].width),
-					&(game->texture[0].height))))
-	{
-		free(game->no);
-		printf("error\n");
-	}
-		//ft_error(game, "Texture SO\n");
-	if (!(game->texture[1].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->setup.path_so, &(game->texture[1].width),
-					&(game->texture[1].height))))
-	{
-		free(game->so);
-		printf("error\n");
-	}//		ft_error(game, "Texture NO\n");
-	if (!(game->texture[2].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->setup.path_we, &(game->texture[2].width),
-					&(game->texture[2].height))))
-		{
-		free(game->we);
-		printf("error\n");
-	}		//ft_error(game, "Texture EA\n");
-	if (!(game->texture[3].img = mlx_xpm_file_to_image(game->window.mlx,
-					game->setup.path_ea, &(game->texture[3].width),
-					&(game->texture[3].height))))
-	{
-		free(game->ea);
-		printf("error\n");
-	}		//ft_error(game, "Texture WE\n");
-	// if (!(game->texture[4].img = mlx_xpm_file_to_image(game->window.mlx,
-	// 				game->setup.path_sp, &(game->texture[4].width),
-	// 				&(game->texture[4].height))))
-	// 	{
-	// 	free(game->sp);
-	// 	printf("error\n");
-	// 	}
-		//ft_error(game, "Texture S\n");
-	ft_get_texture_adress(game);
 }
