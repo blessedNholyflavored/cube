@@ -24,8 +24,9 @@ int	ft_strlen_space(char *str)
 
 int	final_check(t_game *game)
 {
-	if (game->check.n != 1 || game->check.s != 1 || game->check.w != 1 //||  game->check.sp != 1 
-			|| game->check.e != 1 || game->check.f != 1 || game->check.c != 1)
+	if (game->check.n != 1 || game->check.s != 1 || game->check.w != 1
+		|| game->check.e != 1 || game->check.f != 1
+		|| game->check.c != 1)
 		return (1);
 	return (0);
 }
