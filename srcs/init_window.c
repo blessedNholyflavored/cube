@@ -22,6 +22,18 @@ int ft_close(t_game *game)
 
 int key_codes(int keycode, t_game *game)
 {
+	if (keycode == 97)
+		move_left(game);
+	if (keycode == 100)
+	 	move_right(game);
+	if (keycode == 119)
+		move_ahead(game);
+	if (keycode == 115)
+		move_back(game);
+	if (keycode == 65361)
+		move_cam_left(game);
+	if (keycode == 65363)
+		move_cam_right(game);
 	if (keycode == 65307)
 		ft_close(game);
 	return (1);
@@ -155,6 +167,11 @@ int     set_text(t_game *game)
 	return (0);
 }
 
+int test(t_game *game)
+{
+	raycasting(game);
+	return(0);
+}
 
 int     init_window(t_game *game)
 {
@@ -172,10 +189,11 @@ int     init_window(t_game *game)
 			printf("error\nTexture didn't load\n");
 			return (1);
 		}
-		if (raycasting(game))
-			return (1);
+		 if (raycasting(game))
+		 	return (1);
 		mlx_hook(game->window.mlx_win, 2, 1L<<0, key_codes, game);
 		mlx_hook(game->window.mlx_win, 17, 1L<<17, ft_keys,game);
+		mlx_loop_hook(game->window.mlx, test, game);
 		mlx_loop(game->window.mlx);
         return (0);
 }

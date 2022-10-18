@@ -12,25 +12,6 @@
 
 #include "cub.h"
 
-// void set_angle(t_game *game, int x, int y, char letter)
-// {
-// 	if (letter == 'E')
-// 		game->player.angle = 0; 
-// 	if (letter == 'W')
-// 		game->player.angle = M_PI;
-// 	if (letter == 'S')
-// 		game->player.angle = 3 * M_PI_2;
-// 	if (letter == 'N')
-// 		game->player.angle = M_PI_2;
-	// game->player.x = (x * 64) + 32;
-	// // raycast de la position = direction x + planeX * cameraX
-	// game->player.y = (y * 64) + 32;
-//}
-
-// on recupere les angles grace au truc du cercle trigonometrique oe oe oe 
-// https://i2.wp.com/www.methodemaths.fr/cercletrigonometrique.jpg?w=584
-
-
 void go_chercher_la_distance_du_rayon_mec(t_game *game)
 {
 
@@ -74,7 +55,7 @@ void go_chercher_les_murs(t_game *game) // dda
 	}
 }
 
-void verification_ray(t_game *game, t_player *player)
+void verification_ray(t_game *game)
 {
 
 	// on alcule la distance que le ray doit faire entre son point de depart et le premier croisement avec labcisse et lordonne
@@ -83,25 +64,23 @@ void verification_ray(t_game *game, t_player *player)
 	if (game->ray.dirx < 0)
 	{
 		game->ray.stepx = -1;
-		game->ray.sidex = (player->posx - game->ray.mapx) * game->ray.deltax;
+		game->ray.sidex = (game->player.posx - game->ray.mapx) * game->ray.deltax;
 	}
 	else
 	{
 		game->ray.stepx = 1;
-		game->ray.sidex = (game->ray.mapx + 1 - player->posx) * game->ray.deltax;
+		game->ray.sidex = (game->ray.mapx + 1 - game->player.posx) * game->ray.deltax;
 	}
 	if (game->ray.diry < 0)
 	{
 		game->ray.stepy= -1;
-		game->ray.sidey = (player->posy - game->ray.mapy) * game->ray.deltay;
+		game->ray.sidey = (game->player.posy - game->ray.mapy) * game->ray.deltay;
 	}
 	else
 	{
 		game->ray.stepy = 1;
-		game->ray.sidey = (game->ray.mapy + 1 - player->posy) * game->ray.deltay;
+		game->ray.sidey = (game->ray.mapy + 1 - game->player.posy) * game->ray.deltay;
 	}
-	//printf("sidex = %f, sidey = %f\n", game->ray.sidex, game->ray.sidey);
-	//go_chercher_les_murs(game);
 }
 
 void dir_touched_wall(t_game *game)
@@ -218,9 +197,6 @@ void texture_colonne(t_game *game)
 	game->ray.PixelLast = game->ray.line_height / 2 + HEIGHT / 2;
 	if (game->ray.PixelLast >= HEIGHT)
 		game->ray.PixelLast = HEIGHT;
-	game->ray.x = (int)(game->ray.wallx * (double)(print_wall->width));
-	if ((game->ray.sidewall <= 1 && game->ray.dirx > 0) || (game->ray.sidewall >= 2 && game->ray.diry > 0))
-		game->ray.x = print_wall->width - game->ray.x - 1;
 }
 
 
@@ -234,7 +210,7 @@ int raycasting(t_game *game)
 	while(col < WIDTH)
 	{
 		init_ray(game, col);
-		verification_ray(game, &game->player);
+		verification_ray(game);
 		go_chercher_les_murs(game);
 		go_chercher_la_distance_du_rayon_mec(game);
 		dir_touched_wall(game);

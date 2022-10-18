@@ -25,7 +25,6 @@
 #define WIDTH 1280 // pas trop grand pck faut pas deconner
 #define HEIGHT 720
 # define AND_ING			8355711
-# define BYTE				256
 
 typedef enum e_last
 {
@@ -216,5 +215,11 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	draw_sky_floor_colors(t_game *game);
 void affichertext(t_game *game, double ty);
 void testing(t_game *game, int x);
+void	move_cam_right(t_game *game);
+void	move_cam_left(t_game *game);
+void	move_ahead(t_game *game);
+void	move_back(t_game *game);
+void	move_left(t_game *game);
+void	move_right(t_game *game);
 
 #endif

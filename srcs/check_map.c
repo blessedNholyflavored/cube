@@ -26,8 +26,8 @@ int	check_dir(double x, double y, char c, t_game *game)
 		game->player.dir = EAST;
 	else if (c == 'W')
 		game->player.dir = WEST;
-	game->player.posx = x;
-	game->player.posy = y;
+	game->player.posx = x + 0.5;
+	game->player.posy = y + 0.5;
 	return (0);
 }
 
