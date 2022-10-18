@@ -6,7 +6,7 @@
 /*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:24:40 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/05/23 17:37:31 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/18 15:02:54 by lkhamlac         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_rgb(t_game *game, int *i, int y, char type)
 {
-	char **file;
+	char	**file;
 	int		x;
 	int		nb_virgule;
 
@@ -56,7 +56,7 @@ int	check_rgb(t_game *game, int *i, int y, char type)
 		x++;
 		game->setup.ceiling.blue = ft_atoi(file[y] + x);
 	}
-	while(file[y][x] != ' ' && file[y][x])
+	while (file[y][x] != ' ' && file[y][x])
 		x++;
 	*i = x;
 	return (0);

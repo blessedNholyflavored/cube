@@ -1,37 +1,9 @@
-WE ./assets/wall.xpm
-SO ./assets/wall.xpm
-NO ./assets/wall.xpm
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-EA ./assets/wall.xpm
-F 250,142,0
-C 118,124,255
+WE ./assets/wall1.xpm
+SO ./assets/wall2.xpm
+NO ./assets/wall3.xpm
+EA ./assets/wall4.xpm
+F 254,90,0
+C 50,94,255
 
 
 111111 

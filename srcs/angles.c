@@ -1,4 +1,4 @@
- /* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   angles.c                                           :+:      :+:    :+:   */
@@ -12,28 +12,28 @@
 
 #include "cub.h"
 
-void go_chercher_la_distance_du_rayon_mec(t_game *game)
+void	go_chercher_la_distance_du_rayon_mec(t_game *game)
 {
-
 	if (!game->ray.side)
 	{
 		game->ray.perpalldist = (game->ray.sidex - game->ray.deltax);
-		game->ray.wallx = game->player.posy + game->ray.perpalldist * game->ray.diry;
+		game->ray.wallx = game->player.posy + game->ray.perpalldist
+			* game->ray.diry;
 	}
 	else
 	{
-		game->ray.wallx = game->player.posx + game->ray.perpalldist * game->ray.dirx;
+		game->ray.wallx = game->player.posx + game->ray.perpalldist
+			* game->ray.dirx;
 		game->ray.perpalldist = (game->ray.sidey - game->ray.deltay);
 	}
-
 }
 
-void go_chercher_les_murs(t_game *game) // dda
+void	go_chercher_les_murs(t_game *game)
 {
-	int mur;
+	int	wall;
 
-	mur = 0;
-	while (!mur)
+	wall = 0;
+	while (!wall)
 	{
 		if (game->ray.sidex < game->ray.sidey)
 		{
@@ -50,7 +50,7 @@ void go_chercher_les_murs(t_game *game) // dda
 		
 		if (game->map.map[game->ray.mapy][game->ray.mapx] == '1')
 		{
-			mur = 1;
+			wall = 1;
 		}
 	}
 }
