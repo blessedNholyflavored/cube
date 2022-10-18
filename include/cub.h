@@ -6,7 +6,7 @@
 /*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:10:30 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/07/07 13:50:04 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/18 15:21:48 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 
 #define WIDTH 1280 // pas trop grand pck faut pas deconner
 #define HEIGHT 720
-# define AND_ING			8355711
 
 typedef enum e_last
 {
@@ -144,7 +143,7 @@ typedef struct s_ray
 	int		FirstPixel;
 	int		PixelLast;
 	int		x;
-} t_ray;
+}			t_ray;
 
 
 typedef struct s_game
@@ -202,24 +201,26 @@ int		final_check(t_game *game);
 int     init_window(t_game *game);
 void	init_dir(t_game *game);
 void 	angles_de_ses_morts(t_game *game);
-void exec(t_game *game);
-int raycasting(t_game *game);
-int loop(t_game *game);
-int	ft_get_texture_adress(t_game *game);
-int     set_text(t_game *game);
-void texture_colonne(t_game *game);
-void init_struct_ray(t_game *game);
+void	exec(t_game *game);
+int		raycasting(t_game *game);
+int		loop(t_game *game);
+int		ft_get_texture_adress(t_game *game);
+int		set_text(t_game *game);
+void	texture_colonne(t_game *game);
+void	init_struct_ray(t_game *game);
 void	get_texture(t_game *game);
-void draw_shit(t_game *game, int x, int y);
+void	draw_shit(t_game *game, int x, int y);
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	draw_sky_floor_colors(t_game *game);
-void affichertext(t_game *game, double ty);
-void testing(t_game *game, int x);
+void	affichertext(t_game *game, double ty);
+void	testing(t_game *game, int x);
 void	move_cam_right(t_game *game);
 void	move_cam_left(t_game *game);
 void	move_ahead(t_game *game);
 void	move_back(t_game *game);
 void	move_left(t_game *game);
 void	move_right(t_game *game);
+void	move_cam_right(t_game *game);
+void	move_cam_left(t_game *game);
 
 #endif
