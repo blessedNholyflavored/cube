@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   move_camera.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhamlac <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:10:35 by lkhamlac          #+#    #+#             */
-/*   Updated: 2022/10/18 15:10:37 by lkhamlac         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:48:31 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	move_cam_right(t_game *game)
 	double	oldplanex;
 
 	oldplanex = game->player.planex;
-	rot_speed = (10.0 / 1000.0) * 3.0;
+	rot_speed = 0.04;
 	olddirx = game->player.dirx;
 	game->player.dirx = game->player.dirx * cos(rot_speed)
 		- game->player.diry * sin(rot_speed);
@@ -38,7 +38,7 @@ void	move_cam_left(t_game *game)
 	double	oldplanex;
 
 	oldplanex = game->player.planex;
-	rot_speed = 0.03;
+	rot_speed = 0.04;
 	olddirx = game->player.dirx;
 	game->player.dirx = game->player.dirx * cos(-rot_speed)
 		- game->player.diry * sin(-rot_speed);
@@ -50,28 +50,50 @@ void	move_cam_left(t_game *game)
 		+ game->player.planey * cos(-rot_speed);
 }
 
-int	key_codes(int keycode, t_game *game)
+void	free_tab(char **tab)
 {
-	if (keycode == 97)
-		move_left(game);
-	if (keycode == 100)
-		move_right(game);
-	if (keycode == 119)
-		move_ahead(game);
-	if (keycode == 115)
-		move_back(game);
-	if (keycode == 65361)
-		move_cam_left(game);
-	if (keycode == 65363)
-		move_cam_right(game);
-	if (keycode == 65307)
-		ft_close(game);
-	return (1);
+	int	y;
+
+	y = 0;
+	while (tab[y])
+	{
+		free(tab[y]);
+		y++;
+	}
+	free(tab);
 }
 
-int	ft_keys(t_game *game)
+void	free_all(t_game *game)
 {
-	free(game->window.mlx);
+	free_tab(game->map.file);
+	free_tab(game->map.map);
+	free(game->setup.path_no);
+	free(game->setup.path_ea);
+	free(game->setup.path_so);
+	free(game->setup.path_we);
+	close(game->map.fd);
+}
+
+int	ft_exit(t_game *game)
+{
+	if (game->assets.ea.img)
+		mlx_destroy_image(game->window.mlx, game->assets.ea.img);
+	if (game->assets.we.img)
+		mlx_destroy_image(game->window.mlx, game->assets.we.img);
+	if (game->assets.no.img)
+		mlx_destroy_image(game->window.mlx, game->assets.no.img);
+	if (game->assets.so.img)
+		mlx_destroy_image(game->window.mlx, game->assets.so.img);
+	if (game->img.img)
+		mlx_destroy_image(game->window.mlx, game->img.img);
+	if (game->window.mlx_win)
+		mlx_destroy_window(game->window.mlx, game->window.mlx_win);
+	if (game->window.mlx)
+	{
+		mlx_destroy_display(game->window.mlx);
+		free(game->window.mlx);
+	}
+	free_all(game);
 	exit(0);
 	return (0);
 }

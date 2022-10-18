@@ -3,64 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:24:40 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/18 15:02:54 by lkhamlac         ###   ########.fr       */
+/*   Updated: 2022/10/19 00:29:09 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-int	check_rgb(t_game *game, int *i, int y, char type)
-{
-	char	**file;
-	int		x;
-	int		nb_virgule;
-
-	nb_virgule = 0;
-	x = *i;
-	file = game->map.file;
-	while (file[y][x] && file[y][x] != ' ')
-	{
-		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ',')
-			return (1);
-		if (file[y][x] == ',')
-			nb_virgule += 1;
-		x++;
-	}
-	if (nb_virgule != 2)
-		return (1);
-	x = *i;
-	if (type == 'f')
-	{
-		game->setup.floor.red = ft_atoi(file[y] + x);
-		while (file[y][x] != ',')
-			x++;
-		x++;
-		game->setup.floor.green = ft_atoi(file[y] + x);
-		while (file[y][x] != ',')
-			x++;
-		x++;
-		game->setup.floor.blue = ft_atoi(file[y] + x);
-	}
-	else
-	{
-		game->setup.ceiling.red = ft_atoi(file[y] + x);
-		while (file[y][x] != ',')
-			x++;
-		x++;
-		game->setup.ceiling.green = ft_atoi(file[y] + x);
-		while (file[y][x] != ',')
-			x++;
-		x++;
-		game->setup.ceiling.blue = ft_atoi(file[y] + x);
-	}
-	while (file[y][x] != ' ' && file[y][x])
-		x++;
-	*i = x;
-	return (0);
-}
 
 int	check_ce(t_game *game, char **file, int *x, int y)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhamlac <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:21:28 by lkhamlac          #+#    #+#             */
-/*   Updated: 2022/10/18 15:22:36 by lkhamlac         ###   ########.fr       */
+/*   Updated: 2022/10/19 00:16:56 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,6 @@ void	wall_pixel_put(t_game *game, int x, int y)
 		x2 = print_wall->width - x2 - 1;
 	y2 = (int)((double)y * (double)print_wall->height / game->ray.line_height);
 	px2 = print_wall->line_length * y2 + x2 * print_wall->bits_per_pixel / 8;
-	// printf("avant : %c\n", game->img.addr[px + 2]);
-	// printf("apres : %c\n", print_wall->addr[px2 + 2]);
-	// sleep(1);
 	game->img.addr[px + 2] = (char)print_wall->addr[px2 + 2];
 	game->img.addr[px + 1] = (char)print_wall->addr[px2 + 1];
 	game->img.addr[px] = (char)print_wall->addr[px2];

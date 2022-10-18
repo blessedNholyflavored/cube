@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:10:30 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/18 15:21:48 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 00:36:41 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_map
 	int		max_y;
 	char	**file;
 	char	**map;
+	int		tmp;
 }			t_map;
 
 typedef struct s_check
@@ -77,7 +78,6 @@ typedef struct s_setup
 	char	*path_so;
 	char	*path_we;
 	char	*path_ea;
-	char	*path_sp;
 	t_color	floor;
 	t_color	ceiling;
 }			t_setup;
@@ -92,6 +92,17 @@ typedef struct s_player
 	double	dirx;
 	double	diry;
 }			t_player;
+
+typedef struct s_key
+{
+	int	key_w;
+	int	key_s;
+	int	key_a;
+	int	key_d;
+	int	key_left;
+	int	key_right;
+	int	key_escape;
+}			t_key;
 
 typedef struct s_img
 {
@@ -139,7 +150,6 @@ typedef struct s_ray
 	int		line_height;
 	int		firstpixel;
 	int		lastpixel;
-	int		x;
 }			t_ray;
 
 typedef struct s_game
@@ -156,6 +166,7 @@ typedef struct s_game
 	t_assets	assets;
 	t_window	window;
 	t_ray		ray;
+	t_key		key;
 }			t_game;
 
 int		check_map(t_game *game);
@@ -176,6 +187,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 void	init_struct(t_game *game);
 int		parsing_map(t_game *game, int ac, char **av);
 int		ft_strlen_space(char *str);
+void	check_rgb2(t_game *game, char **file, char type, int *x);
 int		check_rgb(t_game *game, int *i, int y, char type);
 int		check_fl(t_game *game, char **file, int *x, int y);
 int		check_ce(t_game *game, char **file, int *x, int y);
@@ -212,8 +224,12 @@ void	move_left(t_game *game);
 void	move_right(t_game *game);
 void	wall_pixel_put(t_game *game, int x, int y);
 void	init_struct_image(t_game *game);
-int		ft_keys(t_game *game);
-int		key_codes(int keycode, t_game *game);
+int		ft_exit(t_game *game);
+int		key_press(int keycode, t_game *game);
 int		ft_close(t_game *game);
+void	set_keys(t_game *game);
+int		key_release(int keycode, t_game *game);
+void	exec_key(t_game *game);
+int		display_game(t_game *game);
 
 #endif

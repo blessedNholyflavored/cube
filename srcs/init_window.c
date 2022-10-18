@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_window.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/07 10:12:06 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/18 15:32:00 by lkhamlac         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:12:28 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
-
-int	ft_close(t_game *game)
-{
-	free(game->window.mlx);
-	exit(0);
-	return (0);
-}
 
 int	ft_get_texture_adress2(t_game *game)
 {
@@ -83,8 +76,9 @@ int	set_text(t_game *game)
 	return (0);
 }
 
-int	test(t_game *game)
+int	display_game(t_game *game)
 {
+	exec_key(game);
 	raycasting(game);
 	return (0);
 }
@@ -105,11 +99,10 @@ int	init_window(t_game *game)
 		printf("error\nTexture didn't load\n");
 		return (1);
 	}
-	if (raycasting(game))
-		return (1);
-	mlx_hook(game->window.mlx_win, 2, 1L << 0, key_codes, game);
-	mlx_hook(game->window.mlx_win, 17, 1L << 17, ft_keys, game);
-	mlx_loop_hook(game->window.mlx, test, game);
+	mlx_hook(game->window.mlx_win, 2, 1L << 0, key_press, game);
+	mlx_hook(game->window.mlx_win, 17, 1L << 17, ft_exit, game);
+	mlx_loop_hook(game->window.mlx, display_game, game);
+	mlx_hook(game->window.mlx_win, 3, 1L << 1, key_release, game);
 	mlx_loop(game->window.mlx);
 	return (0);
 }

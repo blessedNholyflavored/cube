@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkhamlac <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/18 15:51:35 by lkhamlac          #+#    #+#             */
-/*   Updated: 2022/10/18 15:52:03 by lkhamlac         ###   ########.fr       */
+/*   Updated: 2022/10/18 22:57:01 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_struct_image(t_game *game)
 	game->assets.so.addr = NULL;
 	game->img.addr = NULL;
 	game->img.img = NULL;
+	set_keys(game);
 }
 
 void	init_dir2(t_game *game)

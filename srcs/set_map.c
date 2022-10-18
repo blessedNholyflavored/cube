@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:46:39 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/05/23 17:48:08 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 00:15:00 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ int	set_map(t_game *game, char **file, int y)
 	y = max_len(game, file, x);
 	while (file[x])
 	{
-		if (!ft_strcmp(file[x], "\0"))
-			break ;
 		game->map.map[i] = malloc(sizeof(char) * (y + 1));
 		if (!game->map.map[i])
 			return (1);

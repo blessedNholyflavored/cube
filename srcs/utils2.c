@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/15 18:48:28 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/05/17 14:27:14 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/18 23:25:34 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-void	free_all(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (game->map.map[i])
-	{
-		free(game->map.map[i]);
-		i++;
-	}
-	free(game->map.map);
-	close(game->map.fd);
 }
 
 int	check_dim(t_game *game)

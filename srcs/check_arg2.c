@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:26:16 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/13 18:04:19 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 01:00:45 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,44 +93,6 @@ int	find_arg(t_game *game, char **file, int *x, int y)
 	if (i != 0)
 		return (1);
 	return (0);
-}
-
-int	check_setup(t_game *game)
-{
-	char	**file;
-	int		x;
-	int		y;
-
-	y = 0;
-	file = game->map.file;
-	while (file[y])
-	{
-		x = 0;
-		while (file[y][x])
-		{
-			if (file[y][x] != ' ')
-			{
-				if (find_arg(game, file, &x, y))
-					return (1);
-			}
-			else
-			{
-				while (file[y][x])
-				{
-					if (file[y][x] != ' ')
-						return (1);
-					x++;
-				}
-			}
-			if (!file[y][x])
-				break ;
-			x++;
-		}
-		if (!final_check(game))
-			break ;
-		y++;
-	}
-	return (y + 1);
 }
 
 int	check_arg(t_game *game, char *av)
