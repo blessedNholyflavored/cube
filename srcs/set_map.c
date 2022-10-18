@@ -29,7 +29,7 @@ int	init_map(t_game *game, int y)
 
 int	max_len(t_game *game, char **file, int x)
 {
-	int y;
+	int	y;
 	int	len_max;
 
 	len_max = 0;
@@ -99,7 +99,7 @@ void	copy_map(t_game *game, char **file, int i, int x)
 	game->map.map[i][y] = '\0';
 }
 
-int	find_map(char** file, int y)
+int	find_map(char **file, int y)
 {
 	int		x;
 

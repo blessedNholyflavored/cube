@@ -40,7 +40,7 @@ int	parsing_map(t_game *game, int ac, char **av)
 {
 	int	y;
 
-	if (ac != 2)	
+	if (ac != 2)
 		return (1);
 	init_struct(game);
 	y = check_arg(game, av[1]);
@@ -49,14 +49,13 @@ int	parsing_map(t_game *game, int ac, char **av)
 	if (init_map(game, y))
 		return (3);
 	if (init_window(game))
-		return (4);	
+		return (4);
 	return (0);
 }
 
-
 int	main(int ac, char **av)
 {
-	t_game game;
+	t_game	game;
 
 	if (parsing_map(&game, ac, av))
 		return (1);

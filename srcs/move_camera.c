@@ -49,3 +49,29 @@ void	move_cam_left(t_game *game)
 	game->player.planey = oldplanex * sin(-rot_speed)
 		+ game->player.planey * cos(-rot_speed);
 }
+
+int	key_codes(int keycode, t_game *game)
+{
+	if (keycode == 97)
+		move_left(game);
+	if (keycode == 100)
+		move_right(game);
+	if (keycode == 119)
+		move_ahead(game);
+	if (keycode == 115)
+		move_back(game);
+	if (keycode == 65361)
+		move_cam_left(game);
+	if (keycode == 65363)
+		move_cam_right(game);
+	if (keycode == 65307)
+		ft_close(game);
+	return (1);
+}
+
+int	ft_keys(t_game *game)
+{
+	free(game->window.mlx);
+	exit(0);
+	return (0);
+}

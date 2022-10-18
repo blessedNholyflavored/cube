@@ -22,9 +22,9 @@ void	go_chercher_la_distance_du_rayon_mec(t_game *game)
 	}
 	else
 	{
+		game->ray.perpalldist = (game->ray.sidey - game->ray.deltay);
 		game->ray.wallx = game->player.posx + game->ray.perpalldist
 			* game->ray.dirx;
-		game->ray.perpalldist = (game->ray.sidey - game->ray.deltay);
 	}
 	if (game->ray.side == 0 && game->ray.dirx > 0)
 		game->ray.sidewall = EAST;
@@ -119,8 +119,8 @@ int	raycasting(t_game *game)
 		go_chercher_la_distance_du_rayon_mec(game);
 		texture_colonne(game);
 		game->ray.wallx -= floor(game->ray.wallx);
-		px = game->ray.FirstPixel;
-		while (px < game->ray.PixelLast)
+		px = game->ray.firstpixel;
+		while (px < game->ray.lastpixel)
 			wall_pixel_put(game, col, px++);
 		col++;
 	}

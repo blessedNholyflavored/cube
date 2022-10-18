@@ -12,59 +12,15 @@
 
 #include "cub.h"
 
-int	check_dir(double x, double y, char c, t_game *game)
-{
-	if (game->player.dir != -17)
-	{
-		return (1);
-	}
-	if (c == 'N')
-		game->player.dir = NORTH;
-	else if (c == 'S')
-		game->player.dir = SOUTH;
-	else if (c == 'E')
-		game->player.dir = EAST;
-	else if (c == 'W')
-		game->player.dir = WEST;
-	game->player.posx = x + 0.5;
-	game->player.posy = y + 0.5;
-	return (0);
-}
-
-int	check_char(t_game *game, char **map)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (map[y])
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (map[y][x] != ' ' && map[y][x] != 'N' && map[y][x] != 'S'
-					&& map[y][x] != 'E' && map[y][x] != 'W' && map[y][x] != '1'
-					&& map[y][x] != '0')
-				return (1);
-			if (map[y][x] == 'E' || map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'W')
-				if (check_dir(x, y, map[y][x], game))
-					return (2);
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}
-
-
 int	check_pos(t_game *game, char **map, int x, int y)
 {
-	if (x == 0 || y == 0 || x == game->map.len_max - 1 || y == game->map.max_y - 1)
+	if (x == 0 || y == 0 || x == game->map.len_max - 1
+		|| y == game->map.max_y - 1)
 		return (1);
-	if (map[y][x - 1] == ' ' || map[y][x + 1] == ' ' || map[y - 1][x] == ' ' || map[y + 1][x] == ' ')
+	if (map[y][x - 1] == ' ' || map[y][x + 1] == ' '
+		|| map[y - 1][x] == ' ' || map[y + 1][x] == ' ')
 		return (1);
 	return (0);
-	
 }
 
 int	check_close(t_game *game, char **map)
@@ -78,7 +34,8 @@ int	check_close(t_game *game, char **map)
 		x = 0;
 		while (map[y][x])
 		{
-			if (map[y][x] == '0' || map[y][x] == 'W' || map[y][x] == 'N' || map[y][x] == 'S' || map[y][x] == 'E')
+			if (map[y][x] == '0' || map[y][x] == 'W' || map[y][x] == 'N'
+				|| map[y][x] == 'S' || map[y][x] == 'E')
 				if (check_pos(game, map, x, y))
 					return (1);
 			x++;
@@ -105,6 +62,26 @@ int	check_textures(t_game *game)
 	return (0);
 }
 
+int	ft_error(int i)
+{
+	if (i == 1)
+	{
+		printf("error\nThe map isnt close\n");
+		exit(0);
+	}
+	else if (i == 2)
+	{
+		printf("error\nInvalid map forbidden carractere detected\n");
+		exit(0);
+	}
+	else if (i == 3)
+	{
+		printf("error\nTo many players detected in the map\n");
+		exit(0);
+	}
+	return (0);
+}
+
 int	check_map(t_game *game)
 {
 	char	**map;
@@ -112,25 +89,16 @@ int	check_map(t_game *game)
 
 	map = game->map.map;
 	if (check_close(game, map))
-	{
-		printf("error\nThe map isnt close\n");
-		return (1);
-	}
+		ft_error(1);
 	x = check_char(game, map);
 	if (x == 1)
-	{
-		printf("error\nInvalid map forbidden carractere detected\n");
-		return (1);
-	}
+		ft_error(2);
 	else if (x == 2)
-	{
-		printf("error\nTo many players detected in the map\n");
-		return (1);
-	}
+		ft_error(3);
 	if (game->player.dir == -17)
 	{
 		printf("error\nNo player detected\n");
-		return(1);
+		return (1);
 	}
 	if (check_textures(game))
 	{

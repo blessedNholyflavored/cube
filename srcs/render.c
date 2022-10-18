@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub.h"
-	
+
 t_img	*get_enum(t_game *game)
 {
 	if (game->ray.sidewall == NORTH)
@@ -41,6 +41,9 @@ void	wall_pixel_put(t_game *game, int x, int y)
 		x2 = print_wall->width - x2 - 1;
 	y2 = (int)((double)y * (double)print_wall->height / game->ray.line_height);
 	px2 = print_wall->line_length * y2 + x2 * print_wall->bits_per_pixel / 8;
+	// printf("avant : %c\n", game->img.addr[px + 2]);
+	// printf("apres : %c\n", print_wall->addr[px2 + 2]);
+	// sleep(1);
 	game->img.addr[px + 2] = (char)print_wall->addr[px2 + 2];
 	game->img.addr[px + 1] = (char)print_wall->addr[px2 + 1];
 	game->img.addr[px] = (char)print_wall->addr[px2];
@@ -48,16 +51,16 @@ void	wall_pixel_put(t_game *game, int x, int y)
 
 void	texture_colonne(t_game *game)
 {
-	t_img	*print_wall;
+	t_img	*wall;
 
-	print_wall = get_enum(game);
+	wall = get_enum(game);
 	game->ray.line_height = (int)(HEIGHT / game->ray.perpalldist);
-	game->ray.FirstPixel = -game->ray.line_height / 2 + HEIGHT / 2;
-	if (game->ray.FirstPixel < 0)
-		game->ray.FirstPixel = 0;
-	game->ray.PixelLast = game->ray.line_height / 2 + HEIGHT / 2;
-	if (game->ray.PixelLast >= HEIGHT)
-		game->ray.PixelLast = HEIGHT;
+	game->ray.firstpixel = -game->ray.line_height / 2 + HEIGHT / 2;
+	if (game->ray.firstpixel < 0)
+		game->ray.firstpixel = 0;
+	game->ray.lastpixel = game->ray.line_height / 2 + HEIGHT / 2;
+	if (game->ray.lastpixel >= HEIGHT)
+		game->ray.lastpixel = HEIGHT;
 }
 
 int	rgb2int(int r, int g, int b)
