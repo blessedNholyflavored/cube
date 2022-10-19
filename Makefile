@@ -4,7 +4,8 @@ SRCS =		srcs/check_arg.c srcs/check_arg2.c srcs/check_map.c \
 			srcs/check.c srcs/ft_atoi.c srcs/get_next_line.c srcs/main.c \
 			srcs/set_map.c srcs/utils.c srcs/utils2.c srcs/init_window.c \
 			srcs/raycasting.c srcs/move_player.c srcs/move_camera.c srcs/render.c \
-			srcs/init_functions.c srcs/check_map2.c srcs/key_press.c srcs/check_arg3.c
+			srcs/init_functions.c srcs/check_map2.c srcs/key_press.c srcs/check_arg3.c \
+			srcs/error.c
 
 _DEPS =		cub.h
 
