@@ -21,17 +21,13 @@ void	init_struct(t_game *game)
 	game->check.e = 0;
 	game->check.f = 0;
 	game->check.c = 0;
-	game->assets.ea.img = NULL;
-	game->assets.no.img = NULL;
-	game->assets.so.img = NULL;
-	game->assets.we.img = NULL;
 	game->setup.path_so = NULL;
 	game->setup.path_no = NULL;
 	game->setup.path_we = NULL;
 	game->setup.path_ea = NULL;
 	game->map.x = 0;
 	game->map.y = 0;
-	game->map.fd = 0;
+	game->map.fd = -17;
 	game->map.file = NULL;
 	game->map.map = NULL;
 }
@@ -41,7 +37,10 @@ int	parsing_map(t_game *game, int ac, char **av)
 	int	y;
 
 	if (ac != 2)
+	{
+		printf("error\nnot enough arguments\n");
 		return (1);
+	}
 	init_struct(game);
 	y = check_arg(game, av[1]);
 	if (y == 1)

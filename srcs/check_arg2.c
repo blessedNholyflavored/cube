@@ -91,9 +91,54 @@ int	find_arg(t_game *game, char **file, int *x, int y)
 	else if (file[y][*x] == 'C')
 		i = check_ce(game, file, x, y);
 	if (i != 0)
-		return (1);
+	{
+		printf("Error\nWrong rgb format\n");
+		ft_exit(game);
+	}
 	return (0);
 }
+
+
+int	ft_error2(t_game *game, int i)
+{
+	if (i == 1)
+	{
+		printf("error\nnot enough arguments\n");
+		ft_exit(game);
+	}
+	else if (i == 2)
+	{
+		printf("error\ncheck your arguments\n");
+		ft_exit(game);
+	}
+	else if (i == 3)
+	{
+		printf("error\ndont trick the .cub rule\n");
+		ft_exit(game);
+	}
+	else if (i == 4)
+	{
+		printf("cant open the file\n");
+		ft_exit(game);
+	}
+	return (0);
+}
+
+int	ft_error3(t_game *game, int i)
+{
+	if (i == 1)
+	{
+		printf("error\ncan't get the file\n");
+		ft_exit(game);
+	}
+	else if (i == 2)
+	{
+		printf("error\nsomething is wrong in your map settings\n");
+		ft_exit(game);
+	}
+	return (0);
+}
+
 
 int	check_arg(t_game *game, char *av)
 {
@@ -102,21 +147,21 @@ int	check_arg(t_game *game, char *av)
 
 	size = ft_strlen(av);
 	if (size <= 4)
-		return (1);
+		ft_error2(game, 1);
 	if (av[size - 4] == '/')
-		return (1);
-	if (ft_strcmp(&av[size - 4], ".cub"))
-		return (1);
+		ft_error2(game, 2);
+	if (ft_strcmp(&av[size - 5], ".cub"))
+		ft_error2(game, 3);
 	game->map.fd = open(av, O_RDONLY);
 	if (game->map.fd < 0 || read(game->map.fd, 0, 0) == -1)
-		return (1);
+		ft_error2(game, 4);
 	game->map.file = ft_get_file(game->map.fd, 0);
 	if (!game->map.file)
-		return (1);
+		ft_error3(game, 1);
 	y = check_setup(game);
 	if (y == 1)
-		return (1);
+		ft_error3(game, 2);
 	if (final_check(game))
-		return (1);
+		ft_error3(game, 2);
 	return (y);
 }

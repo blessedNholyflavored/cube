@@ -62,22 +62,22 @@ int	check_textures(t_game *game)
 	return (0);
 }
 
-int	ft_error(int i)
+int	ft_error(t_game *game, int i)
 {
 	if (i == 1)
 	{
 		printf("error\nThe map isnt close\n");
-		exit(0);
+		ft_exit(game);
 	}
 	else if (i == 2)
 	{
 		printf("error\nInvalid map forbidden carractere detected\n");
-		exit(0);
+		ft_exit(game);
 	}
 	else if (i == 3)
 	{
 		printf("error\nTo many players detected in the map\n");
-		exit(0);
+		ft_exit(game);
 	}
 	return (0);
 }
@@ -89,21 +89,21 @@ int	check_map(t_game *game)
 
 	map = game->map.map;
 	if (check_close(game, map))
-		ft_error(1);
+		ft_error(game, 1);
 	x = check_char(game, map);
 	if (x == 1)
-		ft_error(2);
+		ft_error(game, 2);
 	else if (x == 2)
-		ft_error(3);
+		ft_error(game, 3);
 	if (game->player.dir == -17)
 	{
 		printf("error\nNo player detected\n");
-		return (1);
+		ft_exit(game);
 	}
 	if (check_textures(game))
 	{
 		printf("invalid textures\n");
-		return (1);
+		ft_exit(game);
 	}
 	return (0);
 }

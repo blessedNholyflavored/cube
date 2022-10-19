@@ -65,13 +65,20 @@ void	free_tab(char **tab)
 
 void	free_all(t_game *game)
 {
-	free_tab(game->map.file);
-	free_tab(game->map.map);
-	free(game->setup.path_no);
-	free(game->setup.path_ea);
-	free(game->setup.path_so);
-	free(game->setup.path_we);
-	close(game->map.fd);
+	if (game->map.file)
+		free_tab(game->map.file);
+	if (game->map.map)
+		free_tab(game->map.map);
+	if (game->setup.path_no)
+		free(game->setup.path_no);
+	if (game->setup.path_ea)
+		free(game->setup.path_ea);
+	if (game->setup.path_so)
+		free(game->setup.path_so);
+	if (game->setup.path_we)
+		free(game->setup.path_we);
+	if (game->map.fd != -17)
+		close(game->map.fd);
 }
 
 int	ft_exit(t_game *game)
