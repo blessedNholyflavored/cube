@@ -24,6 +24,8 @@ void	init_struct_image(t_game *game)
 	game->assets.so.addr = NULL;
 	game->img.addr = NULL;
 	game->img.img = NULL;
+	game->window.mlx_win = NULL;
+	game->window.mlx = NULL;
 	set_keys(game);
 }
 

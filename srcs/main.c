@@ -41,14 +41,13 @@ int	parsing_map(t_game *game, int ac, char **av)
 		printf("error\nnot enough arguments\n");
 		return (1);
 	}
+	init_struct_image(game);
 	init_struct(game);
 	y = check_arg(game, av[1]);
 	if (y == 1)
 		return (2);
 	if (init_map(game, y))
 		return (3);
-	if (init_window(game))
-		return (4);
 	return (0);
 }
 
@@ -57,6 +56,8 @@ int	main(int ac, char **av)
 	t_game	game;
 
 	if (parsing_map(&game, ac, av))
+		return (1);
+	if (init_window(&game))
 		return (1);
 	return (0);
 }
