@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmhaya <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/24 12:39:28 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/05/17 14:31:50 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/24 15:26:07 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,7 @@ static int	atoi2(const char *str, long int i, long int k)
 			break ;
 		i++;
 	}
+	if (n * k > 255 || n * k < 0)
+		return(266);
 	return (n * k);
 }
