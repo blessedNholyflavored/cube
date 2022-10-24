@@ -1,4 +1,0 @@
-finir parsing map
-
-verifier aue les valeurs de mes couleurs ne depassent pas 255je crois
-
