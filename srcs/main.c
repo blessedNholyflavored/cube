@@ -6,7 +6,7 @@
 /*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:45:20 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/07/07 16:31:06 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 19:08:21 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	parsing_map(t_game *game, int ac, char **av)
 
 	if (ac != 2)
 	{
-		printf("error\nnot enough arguments\n");
+		printf("error\nWrong number of arguments\n");
 		return (1);
 	}
 	init_struct_image(game);

@@ -6,7 +6,7 @@
 /*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 16:27:05 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/07/04 19:30:01 by mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 19:14:19 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,6 @@ int	check_textures(t_game *game)
 		return (1);
 	if (game->setup.ceiling.blue < 0 || game->setup.ceiling.blue > 255)
 		return (1);
-	return (0);
-}
-
-int	ft_error(t_game *game, int i)
-{
-	if (i == 1)
-	{
-		printf("error\nThe map isnt close\n");
-		ft_exit(game);
-	}
-	else if (i == 2)
-	{
-		printf("error\nInvalid map forbidden carractere detected\n");
-		ft_exit(game);
-	}
-	else if (i == 3)
-	{
-		printf("error\nTo many players detected in the map\n");
-		ft_exit(game);
-	}
 	return (0);
 }
 

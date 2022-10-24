@@ -47,5 +47,7 @@ static int	atoi2(const char *str, long int i, long int k)
 			break ;
 		i++;
 	}
+	if (n * k > 255 || n * k < 0)
+		return (266);
 	return (n * k);
 }

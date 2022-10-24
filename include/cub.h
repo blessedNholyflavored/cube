@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 16:10:30 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/19 00:36:41 by Mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 19:15:07 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,5 +231,8 @@ void	set_keys(t_game *game);
 int		key_release(int keycode, t_game *game);
 void	exec_key(t_game *game);
 int		display_game(t_game *game);
+int		ft_error3(t_game *game, int i);
+int		ft_error(t_game *game, int i);
+int		ft_error2(t_game *game, int i);
 
 #endif

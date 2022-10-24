@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_map.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 15:46:39 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/19 00:15:00 by Mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 19:10:57 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int	init_map(t_game *game, int y)
 	file = game->map.file;
 	y = find_map(file, y);
 	if (y == 1)
-		return (1);
+		ft_error(game, 2);
+	else if (y == 2)
+		ft_error3(game, 3);
 	if (set_map(game, file, y))
 		return (1);
 	if (check_map(game))
@@ -117,5 +119,5 @@ int	find_map(char **file, int y)
 		}
 		y++;
 	}
-	return (1);
+	return (2);
 }

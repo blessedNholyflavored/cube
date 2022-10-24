@@ -97,7 +97,7 @@ int	init_window(t_game *game)
 	if (set_text(game) || ft_get_texture_adress(game))
 	{
 		printf("error\nTexture didn't load\n");
-		return (1);
+		ft_exit(game);
 	}
 	mlx_hook(game->window.mlx_win, 2, 1L << 0, key_press, game);
 	mlx_hook(game->window.mlx_win, 17, 1L << 17, ft_exit, game);

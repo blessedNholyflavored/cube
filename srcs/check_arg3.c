@@ -49,9 +49,10 @@ int	check_rgb(t_game *game, int *i, int y, char type)
 	nb_virgule = 0;
 	x = *i;
 	file = game->map.file;
-	while (file[y][x] && file[y][x] != ' ')
+	while (file[y][x])
 	{
-		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ',')
+		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ','
+			&& file[y][x] != ' ')
 			return (1);
 		if (file[y][x] == ',')
 			nb_virgule += 1;
@@ -62,7 +63,7 @@ int	check_rgb(t_game *game, int *i, int y, char type)
 	x = *i;
 	game->map.tmp = y;
 	check_rgb2(game, file, type, &x);
-	while (file[y][x] != ' ' && file[y][x])
+	while (file[y][x])
 		x++;
 	*i = x;
 	return (0);

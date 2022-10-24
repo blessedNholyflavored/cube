@@ -72,10 +72,10 @@ void	draw_sky_floor_colors(t_game *game)
 	int	sky_color;
 	int	floor_color;
 
-	sky_color = rgb2int(game->setup.floor.red,
-			game->setup.floor.green, game->setup.floor.blue);
-	floor_color = rgb2int(game->setup.ceiling.red,
+	sky_color = rgb2int(game->setup.ceiling.red,
 			game->setup.ceiling.green, game->setup.ceiling.blue);
+	floor_color = rgb2int(game->setup.floor.red,
+			game->setup.floor.green, game->setup.floor.blue);
 	y = -1;
 	while (++y < WIDTH)
 	{

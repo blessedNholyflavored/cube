@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_arg2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmhaya <mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/23 14:26:16 by mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/19 01:00:45 by Mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/19 19:13:03 by mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,46 +93,6 @@ int	find_arg(t_game *game, char **file, int *x, int y)
 	if (i != 0)
 	{
 		printf("Error\nWrong rgb format\n");
-		ft_exit(game);
-	}
-	return (0);
-}
-
-int	ft_error2(t_game *game, int i)
-{
-	if (i == 1)
-	{
-		printf("error\nnot enough arguments\n");
-		exit(0);
-	}
-	else if (i == 2)
-	{
-		printf("error\ncheck your arguments\n");
-		exit(0);
-	}
-	else if (i == 3)
-	{
-		printf("error\ndont trick the .cub rule\n");
-		exit(0);
-	}
-	else if (i == 4)
-	{
-		printf("cant open the file\n");
-		ft_exit(game);
-	}
-	return (0);
-}
-
-int	ft_error3(t_game *game, int i)
-{
-	if (i == 1)
-	{
-		printf("error\ncan't get the file\n");
-		ft_exit(game);
-	}
-	else if (i == 2)
-	{
-		printf("error\nsomething is wrong in your map settings\n");
 		ft_exit(game);
 	}
 	return (0);
