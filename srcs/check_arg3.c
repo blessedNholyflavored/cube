@@ -6,7 +6,7 @@
 /*   By: Mmhaya <Mmhaya@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/19 00:23:38 by Mmhaya            #+#    #+#             */
-/*   Updated: 2022/10/19 00:59:28 by Mmhaya           ###   ########.fr       */
+/*   Updated: 2022/10/25 13:56:24 by Mmhaya           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ void	check_rgb2(t_game *game, char **file, char type, int *x)
 	}
 }
 
+int	check_char2(char **file, int x, int y)
+{
+	int	nb_virgule;
+	int	nb_nb;
+
+	nb_virgule = 0;
+	nb_nb = 0;
+	while (file[y][x])
+	{
+		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ','
+			&& file[y][x] != ' ')
+			return (1);
+		if ((file[y][x] >= '0' && file[y][x] <= '9') && (file[y][x - 1] == ' ' || file[y][x - 1] == ','))
+			nb_nb++;
+		if (file[y][x] == ',')
+			nb_virgule += 1;
+		x++;
+	}
+	if (nb_virgule != 2 || nb_nb != 3)
+		return (1);
+	return (0);
+}
+
 int	check_rgb(t_game *game, int *i, int y, char type)
 {
 	char	**file;
@@ -49,17 +72,8 @@ int	check_rgb(t_game *game, int *i, int y, char type)
 	nb_virgule = 0;
 	x = *i;
 	file = game->map.file;
-	while (file[y][x])
-	{
-		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ','
-			&& file[y][x] != ' ')
-			return (1);
-		if (file[y][x] == ',')
-			nb_virgule += 1;
-		x++;
-	}
-	if (nb_virgule != 2)
-		return (1);
+	if (check_char2(file, x, y))
+		return(1);
 	x = *i;
 	game->map.tmp = y;
 	check_rgb2(game, file, type, &x);

@@ -2,7 +2,7 @@ NO ./assets/wall1.xpm
 SO ./assets/wall2.xpm
 WE ./assets/wall3.xpm
 EA ./assets/wall4.xpm
-F 1,128,0
+F 1,128,0     
 C 0,191,255
 
 1111111111111111111111111
