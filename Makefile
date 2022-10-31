@@ -11,8 +11,6 @@ _DEPS =		cub.h
 
 INCL =		./include/
 
-DEPS =		$(patsubst %,$(INCL)/%,$(_DEPS))
-
 OBJS =		${SRCS:.c=.o}
 
 CC =		clang
@@ -25,7 +23,7 @@ MLX =		./minilibx
 
 MLX_LIB = 	./minilibx/libmlx_Linux.a
 
-.c.o:		${DEPS}
+.c.o:		
 		${CC} ${CFLAGS} -I${INCL} -I${MLX} -g3 -c $< -o ${<:.c=.o}
 
 $(NAME):	${OBJS} $(MLX_LIB)
