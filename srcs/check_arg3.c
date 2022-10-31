@@ -52,7 +52,8 @@ int	check_char2(char **file, int x, int y)
 		if (!(file[y][x] >= '0' && file[y][x] <= '9') && file[y][x] != ','
 			&& file[y][x] != ' ')
 			return (1);
-		if ((file[y][x] >= '0' && file[y][x] <= '9') && (file[y][x - 1] == ' ' || file[y][x - 1] == ','))
+		if ((file[y][x] >= '0' && file[y][x] <= '9') && (file[y][x - 1] == ' '
+			|| file[y][x - 1] == ','))
 			nb_nb++;
 		if (file[y][x] == ',')
 			nb_virgule += 1;
@@ -73,7 +74,7 @@ int	check_rgb(t_game *game, int *i, int y, char type)
 	x = *i;
 	file = game->map.file;
 	if (check_char2(file, x, y))
-		return(1);
+		return (1);
 	x = *i;
 	game->map.tmp = y;
 	check_rgb2(game, file, type, &x);

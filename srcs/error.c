@@ -46,7 +46,7 @@ int	ft_error3(t_game *game, int i)
 	}
 	else if (i == 2)
 	{
-		printf("error\nsomething is wrong in your map settings\n");
+		printf("error\nsomething is  in your map settings\n");
 		ft_exit(game);
 	}
 	else if (i == 3)
